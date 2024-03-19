@@ -1,8 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from eventbus import Bus
 from ui.mainwindow import MainWindow
-
-bus = Bus()
 
 
 class WelcomeWindow(QtWidgets.QWidget):
