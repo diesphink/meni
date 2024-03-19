@@ -4,7 +4,7 @@ from PySide6 import QtWidgets, QtCore, QtGui
 class FilesTable(QtWidgets.QTableView):
     def __init__(self):
         super().__init__()
-        self.setSelectionMode(QtWidgets.QAbstractItemView.SingleSelection)
+        self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setModel(TableModel())
         QtCore.QCoreApplication.instance().filter_changed.connect(self.on_filter_changed)
         self.selectionModel().selectionChanged.connect(self.on_selection_changed)
