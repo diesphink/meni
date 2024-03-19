@@ -1,0 +1,7 @@
+pyside6
+qt-material
+event-bus
+jsonpickle
+numpy-stl
+matplotlib
+qtawesome
