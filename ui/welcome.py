@@ -10,7 +10,17 @@ class WelcomeWindow(QtWidgets.QWidget):
         # Attributes
         self.library_path = None
 
+        self.app = QtCore.QCoreApplication.instance()
+
         # UI Components
+        self.setStyleSheet(
+            f"""
+                           background-color: {self.app.theme.main_background}; 
+                           color: {self.app.theme.main_foreground};
+                           selection-background-color: {self.app.theme.selection_background};
+                           selection-color: {self.app.theme.selection_foreground};
+                           """
+        )
 
         self.setWindowTitle("Welcome to 3D Library")
         self.setGeometry(100, 100, 400, 300)
@@ -76,7 +86,7 @@ class WelcomeWindow(QtWidgets.QWidget):
         self.bottomButtons.addWidget(self.btn_init, 0)
 
     def select_folder(self):
-        folder = QtWidgets.QFileDialog.getExistingDirectory(self, "Select a folder")
+        folder = QtWidgets.QFileDialog.getExistingDirectory(None, "Select a folder")
         if folder:
             self.library_path = folder
             self.path.setText(folder)
