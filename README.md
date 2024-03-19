@@ -16,12 +16,8 @@
 </h6>
 
 <p align="center">
-  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/version-0.1.0-blue.svg" target="_blank" />
-  </a>
-  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE">
-    <img alt="License: MIT" src="https://img.shields.io/badge/license-BSD-darkcyan.svg" target="_blank" />
-  </a>
+  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/version-0.1.0-blue.svg" target="_blank" /></a>
+  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-BSD-darkcyan.svg" target="_blank" /></a>
 </p>
 
 <p align="center">
@@ -53,7 +49,7 @@ TODO: Guide on installation
 - Twitter: [@sphink](https://twitter.com/sphink)
 - Github: [@diesphink](https://github.com/diesphink)
 
-## 📝 License
+## License
 
 Copyright © 2024 [Diego Pereyra](https://github.com/diesphink).<br />
 This project is [BSD](https://github.com/diesphink/3dlibrary/blob/master/LICENSE) licensed.
