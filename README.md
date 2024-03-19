@@ -36,7 +36,7 @@ It's developed in python using qt (pyside6), numpy-stl to load models and vtkplo
 
 ## Screenshots
 
-TODO: Add screenshots
+![image](https://github.com/diesphink/3dlibrary/assets/10153740/be52a74f-7ffa-426b-8c8d-69e92f3029f0)
 
 ## Installation
 
