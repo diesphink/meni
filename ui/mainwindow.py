@@ -109,7 +109,7 @@ class MainWindow(QtWidgets.QMainWindow):
             paths = file_dialog.selectedFiles()
             for path in paths:
                 self.app.settings.setValue("last_path", os.path.dirname(path))
-                self.app.metadata.import_local_file(path)
+                self.app.metadata.add_file(path)
 
     def model_changed(self):
         self.table.model().layoutChanged.emit()
