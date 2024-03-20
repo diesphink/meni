@@ -20,7 +20,6 @@ class Viewer(QtWidgets.QWidget):
         self.mesh = None
 
         self.fig = vpl.QtFigure2()
-
         self.fig.vl.setContentsMargins(0, 0, 0, 0)
         self.fig.background_color = self.app.theme.main_background
         self.layout.addWidget(self.fig)
@@ -32,6 +31,6 @@ class Viewer(QtWidgets.QWidget):
     def show_stl(self, stl):
         if self.mesh:
             self.fig.remove_plot(self.mesh)
-        self.mesh = vpl.mesh_plot(Mesh.from_file(stl), color=self.app.theme.model_color)
-        vpl.reset_camera()
+        self.mesh = vpl.mesh_plot(Mesh.from_file(stl), color=self.app.theme.model_color, fig=self.fig)
+        vpl.reset_camera(fig=self.fig)
         self.fig.update()

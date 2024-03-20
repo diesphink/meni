@@ -221,10 +221,11 @@ class Local3DFile:
         mesh = Mesh.from_file(self.path)
         fig = vpl.figure()
         fig.background_color = "#282828"
-        vpl.mesh_plot(mesh, color="#8ec07c")
-        vpl.view(focal_point=[0, 0, 0], camera_position=[-50, -50, 50])
-        vpl.reset_camera()
-        vpl.save_fig(self.thumbnail_file, off_screen=True)
+        vpl.mesh_plot(mesh, color="#8ec07c", fig=fig)
+        vpl.view(focal_point=[0, 0, 0], camera_position=[-50, -50, 50], fig=fig)
+        vpl.reset_camera(fig=fig)
+        vpl.save_fig(self.thumbnail_file, off_screen=True, fig=fig)
+        vpl.close(fig=fig)
 
     def __str__(self):
         return f"{self.name} ({self.path})"
