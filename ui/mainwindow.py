@@ -30,11 +30,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.resize(self.app.settings.value("size", QtCore.QSize(270, 225)))
         self.move(self.app.settings.value("pos", QtCore.QPoint(50, 50)))
 
-        menubar = self.menuBar()
-        file_menu = menubar.addMenu("File")
-        reprocess_files_action = file_menu.addAction("Reprocess files")
-        reprocess_files_action.triggered.connect(self.app.metadata.reprocess_files)
-
         toolbar = self.addToolBar("Main")
         toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         toolbar.setMovable(False)
@@ -123,4 +118,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.statusBar().showMessage(message, 5000)
 
     def on_settings_button(self):
-        print(self.viewer.fig.camera)
+        from model.model import Stage, Collection, Local3DFile
+
+        stage = Stage()
+        stage.collection = Collection("Teste", notes="Observações", author="Someone", url="http://www.google.com")
+        stage.tags = ["tag1", "tag2", "tag3"]
+
+        stage.files.append(Local3DFile("/home/sphink/Downloads/111661.stl", stage.collection, name="Teste model with name"))
+        stage.files.append(Local3DFile("/home/sphink/Downloads/Footer.stl", stage.collection))
+
+        self.app.metadata.commit_stage(stage)

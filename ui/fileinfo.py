@@ -43,7 +43,7 @@ class FileInfo(QtWidgets.QWidget):
 
     def on_selected_file_changed(self, file):
         if file:
-            self.title.setText(file.title)
+            self.title.setText(file.name)
             self.path.setText(file.path)
             self.tagrow.tags = file.tags
 

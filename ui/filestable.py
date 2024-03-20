@@ -39,7 +39,7 @@ class TableModel(QtCore.QAbstractTableModel):
 
         if role == QtCore.Qt.ItemDataRole.DisplayRole or role == QtCore.Qt.ItemDataRole.EditRole:
             if index.column() == 0:
-                return self.files[index.row()].title
+                return self.files[index.row()].name
             elif index.column() == 1:
                 return ", ".join(self.files[index.row()].tags)
             elif index.column() == 2:
@@ -54,7 +54,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if app.tag_filters:
             filtered_files = [file for file in filtered_files if any(tag in app.tag_filters for tag in file.tags)]
         if app._search_filter:
-            filtered_files = [file for file in filtered_files if app._search_filter.lower() in file.title.lower()]
+            filtered_files = [file for file in filtered_files if app._search_filter.lower() in file.name.lower()]
 
         return filtered_files
 
@@ -68,7 +68,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             if orientation == QtCore.Qt.Orientation.Horizontal:
                 if section == 0:
-                    return "Title"
+                    return "Name"
                 elif section == 1:
                     return "Tags"
                 elif section == 2:
@@ -87,7 +87,7 @@ class TableModel(QtCore.QAbstractTableModel):
         if role == QtCore.Qt.EditRole:
             app = QtCore.QCoreApplication.instance()
             if index.column() == 0:
-                app.metadata.update_file(self.files[index.row()], title=value)
+                app.metadata.update_file(self.files[index.row()], name=value)
             if index.column() == 1:
                 app.metadata.update_file(self.files[index.row()], tags=[tag.strip() for tag in value.split(", ")])
             return True

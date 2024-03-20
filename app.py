@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
 from ui.mainwindow import MainWindow
 from ui.welcome import WelcomeWindow
-from model.model import Metadata
+from model.model import JsonPickledMetadata
 from theme import *
 
 
@@ -14,17 +14,19 @@ class App3dLibrary(QtWidgets.QApplication):
     def __init__(self, sys_argv):
         super().__init__(sys_argv)
 
-        self.metadata = Metadata([])
-
         self.setApplicationName("3D Library")
-        self.main = None
-        self.welcome = None
+
         self.settings = QtCore.QSettings("3dlibrary", "3dlibrary")
         self.threadpool = QtCore.QThreadPool()
         self.threadpool.setMaxThreadCount(1)
+        self.metadata = JsonPickledMetadata()
+
+        self.main = None
+        self.welcome = None
         self.tag_filters = []
         self._search_filter = None
         self._selected_file = None
+
         self.theme = Nord()
         # self.theme = Dracula()
         # self.theme = Gruvbox()
