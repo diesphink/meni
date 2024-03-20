@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
+from ui.filecontextmenu import FileContextMenu
 
 
 class FilesTable(QtWidgets.QTableView):
@@ -13,6 +14,12 @@ class FilesTable(QtWidgets.QTableView):
         header = self.horizontalHeader()
         header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
         header.setSectionResizeMode(2, QtWidgets.QHeaderView.Stretch)
+
+    def contextMenuEvent(self, event):
+        menu = FileContextMenu(self, self.model().files[self.selectionModel().currentIndex().row()])
+        menu.popup(event.globalPos())
+
+        return super().contextMenuEvent(event)
 
     def on_filter_changed(self):
         self.model().layoutChanged.emit()
