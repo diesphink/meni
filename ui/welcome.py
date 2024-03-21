@@ -23,20 +23,31 @@ class WelcomeWindow(QtWidgets.QWidget):
         )
 
         self.setWindowTitle("Welcome to 3D Library")
-        self.setGeometry(100, 100, 400, 300)
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(30, 15, 30, 15)
 
-        # Title
-        self.title = QtWidgets.QLabel("3D Library", alignment=QtCore.Qt.AlignCenter)
-        self.title.setFont(QtGui.QFont("Sans", 30, QtGui.QFont.Bold))
-        self.layout.addWidget(self.title, 0)
+        # Logo (logo.svg)
+        self.logo = QtWidgets.QLabel()
+        self.logo.setPixmap(QtGui.QPixmap("logo.svg").scaled(120, 120, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        self.logo.setAlignment(QtCore.Qt.AlignCenter)
+        self.layout.addWidget(self.logo, 0)
 
         # Panel
         self.panel = QtWidgets.QFrame()
         self.panel.setFrameShape(QtWidgets.QFrame.Box)
         self.panel.setFrameShadow(QtWidgets.QFrame.Raised)
+        self.panel.setStyleSheet(
+            """
+                QFrame {
+                        background-color: rgba(255, 255, 255, 0.01);
+                        }            
+                QLabel {
+                    background: transparent;
+                    border: none;
+                    }
+                                 """
+        )
         self.panel.layout = QtWidgets.QVBoxLayout(self.panel)
         self.panel.layout.setContentsMargins(30, 15, 30, 30)
         self.panel.layout.setSpacing(15)
@@ -45,20 +56,20 @@ class WelcomeWindow(QtWidgets.QWidget):
         # Text description
         self.description = QtWidgets.QLabel(
             """<strong>Welcome to 3D Library</strong>
-                                    <br><br>
-                                    3D Library needs a folder to use as your library. In this folder will be stored your 3D models after importing and the corresponding metadata, such as tags.
-                                    <br><br>
-                                    Do <strong>not</strong> select a folder already containing your models, you should import the models into the library through the application.
+                <br><br>
+                To get started with 3D Library, you'll need to designate a folder as your library. This folder will house your imported 3D models along with their associated metadata, including tags.
+                <br><br>
+                Please avoid selecting a folder that already contains your models; instead, import them into the library directly through the application.
                                     """,
-            alignment=QtCore.Qt.AlignCenter,
         )
         self.description.setWordWrap(True)
-        self.description.setMinimumSize(300, 300)
         self.panel.layout.addWidget(self.description)
 
         # Path selection
         self.path = QtWidgets.QLabel(QtCore.QCoreApplication.instance().current_library)
-        self.path.setStyleSheet("border: 1px solid #ccc; padding: 5px; border-radius: 5px;")
+        self.path.setStyleSheet(
+            "border: 1px solid rgba(255,255,255, 0.2); padding: 5px; border-radius: 5px; background-color: rgba(255,255,255, 0.1); "
+        )
         self.btn_browse = QtWidgets.QPushButton("Browse")
         self.btn_browse.clicked.connect(self.select_folder)
 
