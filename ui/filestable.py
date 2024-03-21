@@ -7,10 +7,13 @@ from utils import tags_from_text
 class FilesTable(QtWidgets.QTableView):
     def __init__(self):
         super().__init__()
+        self.app = QtCore.QCoreApplication.instance()
         self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.setModel(TableModel())
-        QtCore.QCoreApplication.instance().filter_changed.connect(self.on_filter_changed)
+
+        self.app.filter_changed.connect(self.on_filter_changed)
+        self.app.metadata.changed.connect(self.model().layoutChanged.emit)
         self.selectionModel().selectionChanged.connect(self.on_selection_changed)
         header = self.horizontalHeader()
 
@@ -20,8 +23,10 @@ class FilesTable(QtWidgets.QTableView):
         self.setAcceptDrops(True)
 
     def contextMenuEvent(self, event):
-        menu = FileContextMenu(self, self.model().files[self.selectionModel().currentIndex().row()])
-        menu.popup(event.globalPos())
+        files = [self.model().files[row.row()] for row in self.selectionModel().selectedRows()]
+        if files:
+            menu = FileContextMenu(self, files)
+            menu.popup(event.globalPos())
 
         return super().contextMenuEvent(event)
 
