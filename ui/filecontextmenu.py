@@ -16,11 +16,10 @@ class FileContextMenu(QtWidgets.QMenu):
     def remove_file(self):
         dialog = QtWidgets.QMessageBox(self)
         dialog.setWindowTitle("Remove file")
+        dialog.setIconPixmap(qta.icon("fa5.question-circle", color=self.app.theme.icon_color).pixmap(64, 64))
 
-        if len(self.files) == 1:
-            dialog.setText(f"Are you sure you want to remove {self.files[0]} from the library?")
-        else:
-            dialog.setText(f"Are you sure you want to remove {len(self.files)} files from the library?")
+        deletion = self.files[0] if len(self.files) == 1 else f"{len(self.files)} files"
+        dialog.setText(f"Are you sure you want to remove <b>{deletion}</b> from the library?<br><br>This will also remove the file(s) from disk.")
         dialog.setStandardButtons(QtWidgets.QMessageBox.StandardButton.Yes | QtWidgets.QMessageBox.StandardButton.No)
         dialog.setDefaultButton(QtWidgets.QMessageBox.StandardButton.No)
 
