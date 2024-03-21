@@ -46,6 +46,10 @@ class FileInfo(QtWidgets.QWidget):
             self.title.setText(file.name)
             self.path.setText(file.path)
             self.tagrow.tags = file.tags
+        else:
+            self.title.setText("")
+            self.path.setText("")
+            self.tagrow.tags = []
 
 
 class TagRow(QtWidgets.QWidget):
