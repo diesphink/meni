@@ -68,7 +68,11 @@ class Metadata(QtCore.QObject):
         return file
 
     def remove_file(self, file):
-        os.remove(file.path)
+        try:
+            os.remove(file.path)
+        except FileNotFoundError:
+            print(f"File not found: {file.path}")
+            pass
         self.files.remove(file)
         self.changed.emit()
 
