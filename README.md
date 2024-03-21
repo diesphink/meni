@@ -21,18 +21,18 @@
 </p>
 
 <p align="center">
-3D Library is a software to manage your library of 3D models (STL), making the life of 3d printer owners a little bit easier.
+3D Library is a tool designed to streamline the management of your 3D model (STL) library, offering a smoother experience for 3D printer owners.
 <br>
-It's developed in python using qt (pyside6), numpy-stl to load models and vtkplotlib for the visualization.
+Developed in Python using <a href="https://doc.qt.io/qtforpython-6/index.html">Qt (PySide6)</a>, with model loading facilitated by <a href="https://github.com/WoLpH/numpy-stl/">numpy-stl</a> and visualization handled by <a href="https://github.com/bwoodsend/vtkplotlib">vtkplotlib</a>.
 </p>
 
 ## Features
 
-- **Local (desktop) application** makes it run fast, realiably and more convenient.
-- **Import files** to you library, so you can find them later, without having to worry about file names, folder structure, etc.
-- **Group your files in collections** so you can keep the files together where needed.
-- **Fast preview** to see and manipulate the model on selection.
-- **Tag system** to improve organization.
+- Enjoy the speed, reliability, and convenience of a local (desktop) application.
+- Easily import files into your library for effortless retrieval, without concerns about file names or folder structure.
+- Organize your files into collections for seamless grouping when necessary.
+- Quickly preview and manipulate models upon selection.
+- Enhance organization with a tag system.
 
 ## Screenshots
 
