@@ -32,3 +32,7 @@ def horizontal_layout(*widgets, margins=[0, 0, 0, 0]):
     for widget in widgets:
         layout.addWidget(widget)
     return layout
+
+
+def tags_from_text(text):
+    return [tag.strip() for tag in text.split(",") if tag.strip()]

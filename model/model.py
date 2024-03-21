@@ -1,15 +1,10 @@
 import os
 import shutil
 import jsonpickle
-import time
 from utils import calculate_sha1
-from worker import Worker
-from PySide6 import QtWidgets, QtCore, QtGui
-from mpl_toolkits import mplot3d
+from PySide6 import QtCore
 import vtkplotlib as vpl
 from stl.mesh import Mesh
-from matplotlib import pyplot
-import numpy as np
 
 
 class Metadata(QtCore.QObject):
@@ -60,13 +55,13 @@ class Metadata(QtCore.QObject):
         return file
 
     def update_file(self, file, name=None, tags=None, collection=None, path=None):
-        if name:
+        if name is not None:
             file.name = name
-        if tags:
+        if tags is not None:
             file.tags = tags
-        if collection:
+        if collection is not None:
             file.collection = collection
-        if path:
+        if path is not None:
             file.path = path
 
         self.changed.emit()
@@ -126,7 +121,9 @@ class Metadata(QtCore.QObject):
         self.changed.emit()
 
     def commit_stage(self, stage):
-        collection = self.add_collection(stage.collection)
+        collection = self.collection_by_name(stage.collection.name)
+        if collection is None:
+            collection = self.add_collection(name=stage.collection.name)
         for file in stage.files:
             self.add_file(path=file.path, name=file.name, collection=collection, tags=stage.tags)
 
@@ -171,7 +168,7 @@ class JsonPickledMetadata(Metadata):
 
     def _save(self):
         with open(self.json_file, "w") as outfile:
-            outfile.write(jsonpickle.encode({"files": self.files, "collections": self.collections}))
+            outfile.write(jsonpickle.encode({"collections": self.collections, "files": self.files}))
 
     def _load(self):
         if os.path.exists(self.json_file):
@@ -207,11 +204,19 @@ class Collection:
 
 class Local3DFile:
     def __init__(self, path, collection, name=None, tags=None, hash=None):
-        self.name = name or os.path.basename(path)
+        self.name = name or Local3DFile._name_from_path(path)
         self.path = path
         self.collection = collection
         self.tags = tags or []
         self.hash = hash or calculate_sha1(path)
+
+    def _name_from_path(path):
+        name = os.path.basename(path)
+        name = os.path.splitext(name)[0]
+        name = name.replace("_", " ")
+        name = name.replace("-", " ")
+        name = " ".join([word.capitalize() for word in name.split()])
+        return name
 
     @property
     def thumbnail_file(self):

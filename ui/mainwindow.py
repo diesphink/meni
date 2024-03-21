@@ -7,6 +7,7 @@ from ui.viewer import Viewer
 from ui.fileinfo import FileInfo
 from ui.iconlabel import IconLabel
 from ui.searchinput import SearchInput
+from ui.importdialog import ImportDialog
 import qtawesome as qta
 
 
@@ -37,28 +38,13 @@ class MainWindow(QtWidgets.QMainWindow):
         toolbar.setIconSize(QtCore.QSize(16, 16))
 
         import_action = QtGui.QAction("Import", self, icon=qta.icon("fa5.plus-square", color=self.app.theme.icon_color), text="Import")
-        import_action.triggered.connect(self.open_import_file_dialog)
+        import_action.setShortcut("Ctrl+I")
+        import_action.triggered.connect(lambda: ImportDialog(self).exec())
         toolbar.addAction(import_action)
 
         toolbar.addSeparator()
 
         toolbar.addWidget(SearchInput())
-
-        # lbl_search = IconLabel("fa5s.search", "Search:")
-        # lbl_search.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
-
-        # # lbl_search.setContentsMargins(15, 0, 5, 0)
-        # toolbar.addWidget(lbl_search)
-
-        # search_input = QtWidgets.QLineEdit()
-        # search_input.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
-        # # search_input.setContentsMargins(0, 0, 15, 0)
-        # toolbar.addWidget(search_input)
-
-        # search_action = QtGui.QAction("Search", self, icon=qta.icon("fa5s.play", color="#8ec07c", text=""))
-        # search_action.setIconText("")
-        # search_action.triggered.connect(lambda: self.app.metadata.search(search_input.text()))
-        # toolbar.addAction(search_action)
 
         toolbar.addSeparator()
         settings_action = QtGui.QAction("Settings", self, icon=qta.icon("fa5s.cog", color=self.app.theme.icon_color), text="Settings")
@@ -97,19 +83,6 @@ class MainWindow(QtWidgets.QMainWindow):
         self.app.settings.setValue("size", self.size())
         self.app.settings.setValue("pos", self.pos())
         event.accept()
-
-    def open_import_file_dialog(self):
-        file_dialog = QtWidgets.QFileDialog()
-        file_dialog.setWindowTitle("3D Library")
-        file_dialog.setDirectory(self.app.settings.value("last_path", QtCore.QDir.homePath()))
-        file_dialog.setFileMode(QtWidgets.QFileDialog.ExistingFiles)
-        file_dialog.setNameFilter("3D Files (*.stl)")
-        file_dialog.setViewMode(QtWidgets.QFileDialog.Detail)
-        if file_dialog.exec_():
-            paths = file_dialog.selectedFiles()
-            for path in paths:
-                self.app.settings.setValue("last_path", os.path.dirname(path))
-                self.app.metadata.add_file(path)
 
     def model_changed(self):
         self.table.model().layoutChanged.emit()

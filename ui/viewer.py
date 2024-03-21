@@ -1,8 +1,6 @@
 import vtkplotlib as vpl
-import numpy as np
 from stl.mesh import Mesh
 from PySide6 import QtWidgets, QtCore
-import vtk
 
 
 class Viewer(QtWidgets.QWidget):
@@ -26,11 +24,19 @@ class Viewer(QtWidgets.QWidget):
         self.fig.show()
 
     def on_selected_file_changed(self, file):
-        self.show_stl(file.path)
+        if file is None:
+            self.show_stl(None)
+        else:
+            self.show_stl(file.path)
 
     def show_stl(self, stl):
         if self.mesh:
             self.fig.remove_plot(self.mesh)
+
+        if stl is None:
+            self.fig.update()
+            return
+
         self.mesh = vpl.mesh_plot(Mesh.from_file(stl), color=self.app.theme.model_color, fig=self.fig)
         vpl.reset_camera(fig=self.fig)
         self.fig.update()
