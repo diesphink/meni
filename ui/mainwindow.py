@@ -19,11 +19,13 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setStyleSheet(
             f"""
-                           background-color: {self.app.theme.main_background}; 
-                           color: {self.app.theme.main_foreground};
-                           selection-background-color: {self.app.theme.selection_background};
-                           selection-color: {self.app.theme.selection_foreground};
-                           """
+                * {{
+                    background-color: {self.app.theme.main_background};
+                    color: {self.app.theme.main_foreground};
+                    selection-background-color: {self.app.theme.selection_background};
+                    selection-color: {self.app.theme.selection_foreground};
+                }}
+            """
         )
 
         self.setWindowTitle("3D Library")
