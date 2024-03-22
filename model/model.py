@@ -229,7 +229,7 @@ class Local3DFile:
     def generate_thumbnail(self):
         mesh = Mesh.from_file(self.path)
         fig = vpl.figure()
-        fig.background_color = "#282828"
+        fig.background_opacity = 0
         vpl.mesh_plot(mesh, color="#8ec07c", fig=fig)
         vpl.view(focal_point=[0, 0, 0], camera_position=[-50, -50, 50], fig=fig)
         vpl.reset_camera(fig=fig)
