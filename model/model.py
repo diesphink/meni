@@ -231,7 +231,7 @@ class Local3DFile:
         fig = vpl.figure()
         fig.background_opacity = 0
         vpl.mesh_plot(mesh, color="#8ec07c", fig=fig)
-        vpl.view(focal_point=[0, 0, 0], camera_position=[-50, -50, 50], fig=fig)
+        # vpl.view(focal_point=[0, 0, 0], camera_position=[-50, -50, 50], fig=fig)
         vpl.reset_camera(fig=fig)
         vpl.save_fig(self.thumbnail_file, off_screen=True, fig=fig)
         vpl.close(fig=fig)
