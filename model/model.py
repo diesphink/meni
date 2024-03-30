@@ -23,6 +23,10 @@ class Metadata(QtCore.QObject):
     def clear_caches(self):
         self._tags = None
 
+    def reload(self):
+        self.clear_caches()
+        self.changed.emit()
+
     @property
     def tags(self):
         if not self._tags:
@@ -170,16 +174,24 @@ class JsonPickledMetadata(Metadata):
         self._load()
         self.changed.connect(self._save)
 
+    def reload(self):
+        self.json_file = os.path.join(QtCore.QCoreApplication.instance().current_library, "metadata.json")
+        self._load()
+        super().reload()
+
     def _save(self):
         with open(self.json_file, "w") as outfile:
             outfile.write(jsonpickle.encode({"collections": self.collections, "files": self.files}))
 
     def _load(self):
+        self.files.clear()
+        self.collections.clear()
+
         if os.path.exists(self.json_file):
             with open(self.json_file, "r") as infile:
                 obj = jsonpickle.decode(infile.read())
-                self.files = obj["files"]
-                self.collections = obj["collections"]
+                self.files.extend(obj["files"])
+                self.collections.extend(obj["collections"])
 
 
 class Collection:

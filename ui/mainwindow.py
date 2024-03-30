@@ -8,6 +8,7 @@ from ui.fileinfo import FileInfo
 from ui.iconlabel import IconLabel
 from ui.searchinput import SearchInput
 from ui.importdialog import ImportDialog
+from ui.menusettings import MenuSettings
 import qtawesome as qta
 
 
@@ -50,7 +51,7 @@ class MainWindow(QtWidgets.QMainWindow):
 
         toolbar.addSeparator()
         settings_action = QtGui.QAction("Settings", self, icon=qta.icon("fa5s.cog", color=self.app.theme.icon_color), text="Settings")
-        settings_action.triggered.connect(self.on_settings_button)
+        settings_action.setMenu(MenuSettings(self))
         toolbar.addAction(settings_action)
 
         self.labels = LabelList()
@@ -91,15 +92,3 @@ class MainWindow(QtWidgets.QMainWindow):
 
     def on_status(self, message):
         self.statusBar().showMessage(message, 5000)
-
-    def on_settings_button(self):
-        from model.model import Stage, Collection, Local3DFile
-
-        stage = Stage()
-        stage.collection = Collection("Teste", notes="Observações", author="Someone", url="http://www.google.com")
-        stage.tags = ["tag1", "tag2", "tag3"]
-
-        stage.files.append(Local3DFile("/home/sphink/Downloads/111661.stl", stage.collection, name="Teste model with name"))
-        stage.files.append(Local3DFile("/home/sphink/Downloads/Footer.stl", stage.collection))
-
-        self.app.metadata.commit_stage(stage)

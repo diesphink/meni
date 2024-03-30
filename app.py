@@ -56,6 +56,7 @@ class App3dLibrary(QtWidgets.QApplication):
     @current_library.setter
     def current_library(self, value):
         self.settings.setValue("current_library", value)
+        self.metadata.reload()
 
     @property
     def selected_file(self):
