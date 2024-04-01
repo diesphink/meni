@@ -2,6 +2,10 @@
   "[python]": {
     "editor.formatOnSave": true
   },
-
+  "files.exclude": {
+    "**/__pycache__": true,
+    ".pytest_cache": true,
+    "venv": true
+  },
   "black-formatter.args": ["--line-length", "150"]
 }
