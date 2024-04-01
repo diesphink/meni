@@ -1,25 +1,22 @@
-from PySide6 import QtWidgets, QtCore, QtGui
+from PySide6 import QtWidgets, QtCore
 import qtawesome as qta
 
 
-class LabelList(QtWidgets.QWidget):
-
-    def __init__(self):
-        super().__init__()
+class FiltersDock(QtWidgets.QDockWidget):
+    def __init__(self, parent):
+        super().__init__("Filters", objectName="filters", parent=parent)
         self.setStyleSheet("background: transparent;")
 
-        self.setMaximumWidth(200)
         self.app = QtCore.QCoreApplication.instance()
+
+        self.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetMovable | QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetClosable)
+        self.setAllowedAreas(QtCore.Qt.DockWidgetArea.AllDockWidgetAreas)
 
         self.list = QtWidgets.QListWidget()
         self.list.clicked.connect(self.on_click)
-
-        self.layout = QtWidgets.QVBoxLayout()
-        self.layout.addWidget(self.list)
-        self.layout.setContentsMargins(0, 0, 0, 0)
-        self.setLayout(self.layout)
-
+        self.setWidget(self.list)
         self.populate_list()
+
         self.app.metadata.changed.connect(self.populate_list)
 
     def populate_list(self):

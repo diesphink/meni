@@ -1,14 +1,12 @@
 import os
 
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.labelist import LabelList
 from ui.filestable import FilesTable
-from ui.viewer import Viewer
-from ui.fileinfo import FileInfo
-from ui.iconlabel import IconLabel
 from ui.searchinput import SearchInput
 from ui.importdialog import ImportDialog
 from ui.menusettings import MenuSettings
+from ui.docks.viewer import ViewerDock
+from ui.docks.filters import FiltersDock
 import qtawesome as qta
 
 
@@ -35,6 +33,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.move(self.app.settings.value("pos", QtCore.QPoint(50, 50)))
 
         toolbar = self.addToolBar("Main")
+        toolbar.setObjectName("main_toolbar")
         toolbar.setToolButtonStyle(QtCore.Qt.ToolButtonStyle.ToolButtonTextBesideIcon)
         toolbar.setMovable(False)
         toolbar.setFloatable(False)
@@ -54,15 +53,19 @@ class MainWindow(QtWidgets.QMainWindow):
         settings_action.setMenu(MenuSettings(self))
         toolbar.addAction(settings_action)
 
-        self.labels = LabelList()
         self.table = FilesTable()
-        self.viewer = Viewer()
-        self.info = FileInfo()
 
-        self.setCentralWidget(self.split(self.labels, self.split(self.table, self.vertical_stack(self.info, self.viewer))))
+        self.setCentralWidget(self.table)
+        self.viewer = ViewerDock(None)
+        self.filters = FiltersDock(None)
+
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
 
         self.app.metadata.changed.connect(self.table.model().layoutChanged)
         self.app.status.connect(self.on_status)
+
+        self.restoreState(self.app.settings.value("state"))
 
     def split(self, widget1, widget2, orientation=QtCore.Qt.Orientation.Horizontal):
         splitter = QtWidgets.QSplitter()
@@ -85,6 +88,7 @@ class MainWindow(QtWidgets.QMainWindow):
     def closeEvent(self, event):
         self.app.settings.setValue("size", self.size())
         self.app.settings.setValue("pos", self.pos())
+        self.app.settings.setValue("state", self.saveState())
         event.accept()
 
     def model_changed(self):
