@@ -110,6 +110,9 @@ class PreviewDelegate(QtWidgets.QStyledItemDelegate):
         return QtCore.QSize(self.size, self.size)
 
 
+THUMBNAIL, NAME, COLLECTION, TAGS, PATH = range(5)
+
+
 class TableModel(QtCore.QAbstractTableModel):
 
     def __init__(self):
@@ -132,15 +135,15 @@ class TableModel(QtCore.QAbstractTableModel):
     def headerData(self, section, orientation, role):
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             if orientation == QtCore.Qt.Orientation.Horizontal:
-                if section == 0:
+                if section == THUMBNAIL:
                     return ""
-                elif section == 1:
+                elif section == NAME:
                     return "Name"
-                elif section == 2:
+                elif section == COLLECTION:
                     return "Collection"
-                elif section == 3:
+                elif section == TAGS:
                     return "Tags"
-                elif section == 4:
+                elif section == PATH:
                     return "Path"
             else:
                 return section + 1
@@ -154,37 +157,41 @@ class TableModel(QtCore.QAbstractTableModel):
 
     def data(self, index, role):
         if role == QtCore.Qt.ItemDataRole.DisplayRole or role == QtCore.Qt.ItemDataRole.EditRole:
-            if index.column() == 0:
+            if index.column() == THUMBNAIL:
                 return self.files[index.row()].thumbnail_file
-            elif index.column() == 1:
+            elif index.column() == NAME:
                 return self.files[index.row()].name
-            elif index.column() == 2:
-                return self.files[index.row()].collection.name
-            elif index.column() == 3:
+            elif index.column() == COLLECTION:
+                return self.files[index.row()].collection
+            elif index.column() == TAGS:
                 return ", ".join(self.files[index.row()].tags)
-            elif index.column() == 4:
+            elif index.column() == PATH:
                 return self.files[index.row()].path
 
     def flags(self, index):
         flags = QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
-        if index.column() == 1 or index.column() == 3:
+        if index.column() == NAME or index.column() == COLLECTION or index.column() == TAGS:
             flags |= QtCore.Qt.ItemIsEditable
         return flags
 
     def validate(self, index, value):
-        if index.column() == 1:
+        if index.column() == NAME:
             return value.strip() != ""
-        if index.column() == 3:
+        if index.column() == COLLECTION:
+            return True
+        if index.column() == TAGS:
             return True
         return False
 
     def setData(self, index, value, role):
         if role == QtCore.Qt.EditRole:
             app = QtCore.QCoreApplication.instance()
-            if index.column() == 1:
+            if index.column() == NAME:
                 if not self.validate(index, value):
                     return False
                 app.metadata.update_file(self.files[index.row()], name=value)
-            if index.column() == 3:
+            if index.column() == COLLECTION:
+                app.metadata.update_file(self.files[index.row()], collection=value)
+            if index.column() == TAGS:
                 app.metadata.update_file(self.files[index.row()], tags=tags_from_text(value))
             return True
