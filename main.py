@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore
 from qt_material import apply_stylesheet
-from ui.mainwindow import MainWindow
-from ui.welcome import WelcomeWindow
+from ui.windows.mainwindow import MainWindow
+from ui.windows.welcome import WelcomeWindow
 from app import App3dLibrary
 import sys
 import qdarkstyle

@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.mainwindow import MainWindow
+from ui.windows.mainwindow import MainWindow
 
 
 class WelcomeWindow(QtWidgets.QWidget):
