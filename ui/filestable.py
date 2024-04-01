@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.filecontextmenu import FileContextMenu
+from ui.menus.filecontextmenu import FileContextMenu
 from ui.windows.importdialog import ImportDialog
 from utils import tags_from_text
 
@@ -19,8 +19,6 @@ class FilesTable(QtWidgets.QTableView):
         self.verticalHeader().setDefaultSectionSize(self.delegate.size)
         self.verticalHeader().hide()
 
-        self.app.filter_changed.connect(self.on_filter_changed)
-        self.app.metadata.changed.connect(self.model().layoutChanged.emit)
         self.selectionModel().selectionChanged.connect(self.on_selection_changed)
         header = self.horizontalHeader()
 
@@ -28,6 +26,9 @@ class FilesTable(QtWidgets.QTableView):
         header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
         self.setAcceptDrops(True)
+
+        self.app.filter_changed.connect(self.on_filter_changed)
+        self.app.metadata.changed.connect(self.model().layoutChanged.emit)
 
     def contextMenuEvent(self, event):
         files = [self.model().files[row.row()] for row in self.selectionModel().selectedRows()]
