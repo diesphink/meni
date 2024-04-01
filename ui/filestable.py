@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from ui.filecontextmenu import FileContextMenu
-from ui.importdialog import ImportDialog
+from ui.windows.importdialog import ImportDialog
 from utils import tags_from_text
 
 

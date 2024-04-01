@@ -3,7 +3,7 @@ import os
 from PySide6 import QtWidgets, QtCore, QtGui
 from ui.filestable import FilesTable
 from ui.searchinput import SearchInput
-from ui.importdialog import ImportDialog
+from ui.windows.importdialog import ImportDialog
 from ui.menusettings import MenuSettings
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
