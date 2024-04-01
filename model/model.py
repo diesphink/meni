@@ -19,6 +19,7 @@ class Metadata(QtCore.QObject):
         self._tags = None
 
         self.changed.connect(self.clear_caches)
+        self.changed.connect(self.validate)
 
     def clear_caches(self):
         self._tags = None
@@ -26,6 +27,18 @@ class Metadata(QtCore.QObject):
     def reload(self):
         self.clear_caches()
         self.changed.emit()
+
+    def validate(self):
+        # Collections without any file and with no data
+        for collection in self.collections:
+            if (
+                collection.files == []
+                and collection.attachments == []
+                and collection.notes is None
+                and collection.author is None
+                and collection.url is None
+            ):
+                self.remove_collection(collection)
 
     @property
     def tags(self):
@@ -46,8 +59,7 @@ class Metadata(QtCore.QObject):
         if name is None:
             name = os.path.basename(new_path)
 
-        if collection is None:
-            collection = self.add_collection(name)
+        self.add_collection_if_not_exist(collection)
 
         hash = calculate_sha1(new_path)
 
@@ -64,6 +76,7 @@ class Metadata(QtCore.QObject):
         if tags is not None:
             file.tags = tags
         if collection is not None:
+            self.add_collection_if_not_exist(collection)
             file.collection = collection
         if path is not None:
             file.path = path
@@ -95,6 +108,10 @@ class Metadata(QtCore.QObject):
         self.collections.append(collection)
         self.changed.emit()
         return collection
+
+    def add_collection_if_not_exist(self, name, author=None, url=None, notes=None, attachments=[]):
+        if self.collection_by_name(name) is None:
+            return self.add_collection(name, author, url, notes, attachments)
 
     def update_collection(self, collection, author=None, url=None, notes=None):
         collection.author = author
@@ -129,36 +146,33 @@ class Metadata(QtCore.QObject):
         self.changed.emit()
 
     def commit_stage(self, stage):
-        collection = self.collection_by_name(stage.collection.name)
-        if collection is None:
-            collection = self.add_collection(name=stage.collection.name)
         for file in stage.files:
-            self.add_file(path=file.path, name=file.name, collection=collection, tags=stage.tags)
+            self.add_file(path=file.path, name=file.name, collection=stage.collection, tags=stage.tags)
 
     # GETTERS
 
-    def tag_by_name(self, name):
-        return self._tags[name]
+    # def tag_by_name(self, name):
+    #     return self._tags[name]
 
-    def file_by_hash(self, hash):
-        for file in self.files:
-            if file.hash == hash:
-                return file
+    # def file_by_hash(self, hash):
+    #     for file in self.files:
+    #         if file.hash == hash:
+    #             return file
 
-    def file_by_name(self, name):
-        for file in self.files:
-            if file.name == name:
-                return file
+    # def file_by_name(self, name):
+    #     for file in self.files:
+    #         if file.name == name:
+    #             return file
 
-    def file_by_path(self, path):
-        for file in self.files:
-            if file.path == path:
-                return file
+    # def file_by_path(self, path):
+    #     for file in self.files:
+    #         if file.path == path:
+    #             return file
 
-    def file_by_library_path(self, library_path):
-        for file in self.files:
-            if file.library_path == library_path:
-                return file
+    # def file_by_library_path(self, library_path):
+    #     for file in self.files:
+    #         if file.library_path == library_path:
+    #             return file
 
     def collection_by_name(self, name):
         for collection in self.collections:
@@ -205,7 +219,7 @@ class Collection:
     @property
     def files(self):
         app = QtCore.QCoreApplication.instance()
-        return [file for file in app.metadata.files if file.collection == self]
+        return [file for file in app.metadata.files if file.collection_obj == self]
 
     @property
     def attachments_folder(self):
@@ -237,6 +251,14 @@ class Local3DFile:
     @property
     def thumbnail_file(self):
         return os.path.join(QtCore.QCoreApplication.instance().current_library, "thumbnails", f"{self.hash}.png")
+
+    @property
+    def collection_obj(self):
+        metadata = QtCore.QCoreApplication.instance().metadata
+        collection = metadata.collection_by_name(self.collection)
+        if collection is None:
+            collection = metadata.add_collection(self.collection)
+        return collection
 
     def generate_thumbnail(self):
         mesh = Mesh.from_file(self.path)

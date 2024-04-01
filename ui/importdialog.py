@@ -77,9 +77,7 @@ class ImportDialog(QtWidgets.QDialog):
         self.add_files(files)
 
     def on_OK(self):
-        self.stage.collection = self.app.metadata.collection_by_name(self.collection.currentText())
-        if self.stage.collection is None:
-            self.stage.collection = self.app.metadata.add_collection(self.collection.currentText())
+        self.stage.collection = self.collection.currentText()
         self.stage.tags = tags_from_text(self.tags.text())
         self.app.metadata.commit_stage(self.stage)
         self.accept()
