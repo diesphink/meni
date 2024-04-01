@@ -7,6 +7,7 @@ from ui.windows.importdialog import ImportDialog
 from ui.menus.menusettings import MenuSettings
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
+from ui.collectioninfo import CollectionDock
 from ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
 
@@ -38,11 +39,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.table = FilesTable()
 
         self.setCentralWidget(self.table)
-        self.viewer = ViewerDock(None)
-        self.filters = FiltersDock(None)
+        self.viewer = ViewerDock(self)
+        self.filters = FiltersDock(self)
+        self.collection_info = CollectionDock(self)
 
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collection_info)
 
         self.app.status.connect(self.on_status)
 

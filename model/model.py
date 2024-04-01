@@ -113,10 +113,17 @@ class Metadata(QtCore.QObject):
         if self.collection_by_name(name) is None:
             return self.add_collection(name, author, url, notes, attachments)
 
-    def update_collection(self, collection, author=None, url=None, notes=None):
-        collection.author = author
-        collection.url = url
-        collection.notes = notes
+    def update_collection(self, collection, name=None, author=None, url=None, notes=None):
+        if name is not None:
+            for file in collection.files:
+                file.collection = name
+            collection.name = name
+        if author is not None:
+            collection.author = author
+        if url is not None:
+            collection.url = url
+        if notes is not None:
+            collection.notes = notes
         self.changed.emit()
         return collection
 
