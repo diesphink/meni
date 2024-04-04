@@ -7,7 +7,7 @@ from ui.windows.importdialog import ImportDialog
 from ui.menus.menusettings import MenuSettings
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
-from ui.collectioninfo import CollectionDock
+from ui.docks.collectioninfo import CollectionDock
 from ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
 
