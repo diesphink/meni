@@ -11,10 +11,12 @@ class App3dLibrary(QtWidgets.QApplication):
     filter_changed = QtCore.Signal()
     selected_file_changed = QtCore.Signal(object)
 
-    def __init__(self, sys_argv):
+    def __init__(self, sys_argv, library=None):
         super().__init__(sys_argv)
 
         self.setApplicationName("3D Library")
+
+        self._library_command_line = library
 
         self.settings = QtCore.QSettings("3dlibrary", "3dlibrary")
         self.threadpool = QtCore.QThreadPool()
@@ -51,11 +53,12 @@ class App3dLibrary(QtWidgets.QApplication):
 
     @property
     def current_library(self):
-        return self.settings.value("current_library")
+        return self._library_command_line or self.settings.value("current_library")
 
     @current_library.setter
     def current_library(self, value):
         self.settings.setValue("current_library", value)
+        self._library_command_line = None
         self.metadata.reload()
 
     @property
