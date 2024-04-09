@@ -9,6 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "program": "main.py",
+            "args": ["-l", "library"],
             "console": "integratedTerminal",
             "env": {
                 "QT_QPA_PLATFORM": "xcb"
