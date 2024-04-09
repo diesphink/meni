@@ -29,10 +29,10 @@ class CollectionDock(QtWidgets.QDockWidget):
         self.url = QtWidgets.QLineEdit()
         self.layout.addWidget(self.url)
 
-        # Attachments
-        self.layout.addWidget(QtWidgets.QLabel("Attachments"))
-        self.attachments = AttachmentsList()
-        self.layout.addWidget(self.attachments)
+        # # Attachments
+        # self.layout.addWidget(QtWidgets.QLabel("Attachments"))
+        # self.attachments = AttachmentsList()
+        # self.layout.addWidget(self.attachments)
 
         # Notes
         self.layout.addWidget(QtWidgets.QLabel("Notes"))
@@ -75,23 +75,23 @@ class CollectionDock(QtWidgets.QDockWidget):
             self.author.setText(collection.author)
             self.url.setText(collection.url)
             self.notes.setText(collection.notes)
-            self.attachments.setAttachments(collection.attachments)
+            # self.attachments.setAttachments(collection.attachments)
         else:
             self.name.setText("")
             self.author.setText("")
             self.url.setText("")
             self.notes.setText("")
-            self.attachments.setAttachments([])
+            # self.attachments.setAttachments([])
 
 
-class AttachmentsList(QtWidgets.QLabel):
-    def __init__(self):
-        super().__init__()
-        self.setText("There are no attachments")
-        self.setStyleSheet("padding: 5px;text-align: center;")
+# class AttachmentsList(QtWidgets.QLabel):
+#     def __init__(self):
+#         super().__init__()
+#         self.setText("There are no attachments")
+#         self.setStyleSheet("padding: 5px;text-align: center;")
 
-    def setAttachments(self, attachments):
-        if attachments:
-            self.setText("\n".join(attachments))
-        else:
-            self.setText("There are no attachments")
+#     def setAttachments(self, attachments):
+#         if attachments:
+#             self.setText("\n".join(attachments))
+#         else:
+#             self.setText("There are no attachments")
