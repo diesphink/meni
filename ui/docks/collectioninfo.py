@@ -70,7 +70,7 @@ class CollectionDock(QtWidgets.QDockWidget):
         if file:
             collection = file.collection_obj
 
-        if collection:
+        if file and collection:
             self.name.setText(collection.name)
             self.author.setText(collection.author)
             self.url.setText(collection.url)
