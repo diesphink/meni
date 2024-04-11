@@ -25,6 +25,9 @@ class FilesTable(QtWidgets.QTableView):
         header = self.horizontalHeader()
         header.setSectionResizeMode(QtWidgets.QHeaderView.ResizeToContents)
 
+        self.setDragEnabled(True)
+        self.setDragDropMode(QtWidgets.QAbstractItemView.DragDropMode.DragDrop)
+        self.setDragDropOverwriteMode(False)
         self.setAcceptDrops(True)
 
         self.app.filter_changed.connect(self.on_filter_changed)
@@ -62,6 +65,7 @@ class FilesTable(QtWidgets.QTableView):
             event.ignore()
 
     def dropEvent(self, event):
+
         files = []
         for url in event.mimeData().urls():
             files.append(url.toLocalFile())
@@ -170,7 +174,7 @@ class TableModel(QtCore.QAbstractTableModel):
                 return self.files[index.row()].path
 
     def flags(self, index):
-        flags = QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled
+        flags = QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled
         if index.column() == NAME or index.column() == COLLECTION or index.column() == TAGS:
             flags |= QtCore.Qt.ItemIsEditable
         return flags
@@ -183,6 +187,15 @@ class TableModel(QtCore.QAbstractTableModel):
         if index.column() == TAGS:
             return True
         return False
+
+    def mimeData(self, indexes):
+
+        rows = set(index.row() for index in indexes)
+        urls = [QtCore.QUrl.fromLocalFile(self.files[row].absolute_path) for row in rows]
+
+        mime_data = QtCore.QMimeData()
+        mime_data.setUrls(urls)
+        return mime_data
 
     def setData(self, index, value, role):
         if role == QtCore.Qt.EditRole:

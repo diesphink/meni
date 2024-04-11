@@ -260,6 +260,10 @@ class Local3DFile:
         return name
 
     @property
+    def absolute_path(self):
+        return os.path.abspath(self.path)
+
+    @property
     def thumbnail_file(self):
         return os.path.join(QtCore.QCoreApplication.instance().current_library, "thumbnails", f"{self.hash}.png")
 
