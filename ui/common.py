@@ -61,3 +61,38 @@ class DockTitleBar(QtWidgets.QWidget):
             }}
             """
         )
+
+
+class IconLabel(QtWidgets.QWidget):
+
+    HorizontalSpacing = 2
+
+    def __init__(self, qta_id, text="", final_stretch=True, icon_size=16):
+        super().__init__()
+
+        self.app = QtWidgets.QApplication.instance()
+
+        self.icon_size = QtCore.QSize(icon_size, icon_size)
+
+        layout = QtWidgets.QHBoxLayout()
+        layout.setContentsMargins(0, 0, 0, 0)
+        self.setLayout(layout)
+
+        self.icon = QtWidgets.QLabel()
+        self.text = QtWidgets.QLabel()
+
+        self.setIcon(qta_id)
+        self.setText(text)
+
+        layout.addWidget(self.icon)
+        layout.addSpacing(self.HorizontalSpacing)
+        layout.addWidget(self.text)
+
+        if final_stretch:
+            layout.addStretch()
+
+    def setText(self, text):
+        self.text.setText(text)
+
+    def setIcon(self, qta_id):
+        self.icon.setPixmap(qta.icon(qta_id, color=self.app.theme.icon_color).pixmap(self.icon_size))

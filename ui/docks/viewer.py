@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore
 from ui.tagrow import TagRow
-from ui.common import DockTitleBar
+from ui.common import DockTitleBar, IconLabel
 from stl.mesh import Mesh
 import vtkplotlib as vpl
 import qtawesome as qta
@@ -29,9 +29,15 @@ class ViewerDock(QtWidgets.QDockWidget):
         self.layout.addWidget(self.title)
 
         # Path
-        self.path = QtWidgets.QLabel()
+        self.path = IconLabel(qta_id="fa5s.file", icon_size=12)
         self.path.setStyleSheet("font-size: 10px; opacity: 0.8")
         self.layout.addWidget(self.path)
+
+        # Collection
+        self.collection = IconLabel(qta_id="fa5s.layer-group", icon_size=12, final_stretch=True)
+        self.collection.setStyleSheet("font-size: 10px; opacity: 0.8")
+        self.collection.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        self.layout.addWidget(self.collection)
 
         # Tags
         self.tagrow = TagRow()
@@ -54,15 +60,23 @@ class ViewerDock(QtWidgets.QDockWidget):
         self.app.metadata.changed.connect(lambda: self.on_selected_file_changed(self.app.selected_file))
         self.app.selected_file_changed.connect(self.on_selected_file_changed)
 
+        # Starting values
+        self.on_selected_file_changed(None)
+
     def on_selected_file_changed(self, file):
+        self.path.setVisible(file is not None)
+        self.collection.setVisible(file is not None and file.collection_obj is not None)
+
         if file:
             self.title.setText(file.name)
             self.path.setText(file.path)
+            self.collection.setText(file.collection_obj.name if file.collection_obj else "")
             self.tagrow.tags = file.tags
             self.show_stl(file.path)
         else:
             self.title.setText("")
             self.path.setText("")
+            self.collection.setText("")
             self.tagrow.tags = []
             self.show_stl(None)
 
