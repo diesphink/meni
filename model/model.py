@@ -110,7 +110,7 @@ class Metadata(QtCore.QObject):
         return collection
 
     def add_collection_if_not_exist(self, name, author=None, url=None, notes=None, attachments=[]):
-        if self.collection_by_name(name) is None:
+        if self.collection_by_name(name) is None and name is not None and name.strip() != "":
             return self.add_collection(name, author, url, notes, attachments)
 
     def update_collection(self, collection, name=None, author=None, url=None, notes=None):
@@ -271,7 +271,7 @@ class Local3DFile:
     def collection_obj(self):
         metadata = QtCore.QCoreApplication.instance().metadata
         collection = metadata.collection_by_name(self.collection)
-        if collection is None:
+        if collection is None and self.collection is not None and self.collection.strip() != "":
             collection = metadata.add_collection(self.collection)
         return collection
 
