@@ -2,6 +2,7 @@ from PySide6 import QtWidgets, QtCore, QtGui
 from ui.menus.filecontextmenu import FileContextMenu
 from ui.windows.importdialog import ImportDialog
 from utils import tags_from_text
+import qtawesome as qta
 
 
 class FilesTable(QtWidgets.QTableView):
@@ -13,7 +14,6 @@ class FilesTable(QtWidgets.QTableView):
         self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.setModel(TableModel())
-        self.setGridStyle(QtCore.Qt.NoPen)
 
         self.setItemDelegateForColumn(0, self.delegate)
         self.verticalHeader().setDefaultSectionSize(self.delegate.size)
@@ -123,6 +123,7 @@ class TableModel(QtCore.QAbstractTableModel):
     def __init__(self):
         super(TableModel, self).__init__()
         self._files = QtCore.QCoreApplication.instance().metadata.files
+        self.app = QtCore.QCoreApplication.instance()
 
     @property
     def files(self):
@@ -172,6 +173,16 @@ class TableModel(QtCore.QAbstractTableModel):
                 return ", ".join(self.files[index.row()].tags)
             elif index.column() == PATH:
                 return self.files[index.row()].path
+
+        elif role == QtCore.Qt.DecorationRole:
+            if index.column() == COLLECTION:
+                if self.files[index.row()].collection_obj is not None:
+                    return qta.icon("fa5s.layer-group", color=self.app.theme.icon_color)
+            elif index.column() == TAGS:
+                if self.files[index.row()].tags:
+                    return qta.icon("fa5s.tag", color=self.app.theme.icon_color)
+            elif index.column() == PATH:
+                return qta.icon("fa5s.file", color=self.app.theme.icon_color)
 
     def flags(self, index):
         flags = QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled

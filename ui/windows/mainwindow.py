@@ -52,6 +52,9 @@ class MainWindow(QtWidgets.QMainWindow):
                     background-color: {self.app.theme.main_background};
                 }}
 
+                QTableView {{
+                    gridline-color: rgba(0, 0, 0, 0.2);
+                }}
             """
         )
 
