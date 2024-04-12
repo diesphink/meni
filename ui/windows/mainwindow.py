@@ -42,6 +42,15 @@ class MainWindow(QtWidgets.QMainWindow):
                     background-color: {self.app.theme.red_btn};
                     color: #000;
                 }}
+                
+                QLineEdit, QComboBox {{
+                    background-color: rgba(255, 255, 255, 0.05);
+                    border: 1px solid rgba(0, 0, 0, 0.3);
+                }}
+
+                QTableView QLineEdit, QTableView QComboBox {{
+                    background-color: {self.app.theme.main_background};
+                }}
 
             """
         )
