@@ -62,6 +62,14 @@ class Gruvbox:
     def selection_foreground(self):
         return self.background
 
+    @property
+    def green_btn(self):
+        return self.green
+
+    @property
+    def red_btn(self):
+        return self.red
+
 
 class Nord:
     def __init__(self):
@@ -128,6 +136,14 @@ class Nord:
     def selection_foreground(self):
         return self.background
 
+    @property
+    def green_btn(self):
+        return self.green
+
+    @property
+    def red_btn(self):
+        return self.red
+
 
 class Dracula:
     def __init__(self):
@@ -174,3 +190,11 @@ class Dracula:
     @property
     def selection_foreground(self):
         return self.foreground
+
+    @property
+    def green_btn(self):
+        return self.green
+
+    @property
+    def red_btn(self):
+        return self.red

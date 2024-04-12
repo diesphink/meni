@@ -43,8 +43,8 @@ class CollectionDock(QtWidgets.QDockWidget):
         self.layout.addWidget(self.notes)
 
         # Buttons
-        self.save = QtWidgets.QPushButton("Save")
-        self.cancel = QtWidgets.QPushButton("Cancel")
+        self.save = QtWidgets.QPushButton("Save", objectName="save")
+        self.cancel = QtWidgets.QPushButton("Cancel", objectName="cancel")
         self.buttons = QtWidgets.QHBoxLayout()
         self.buttons.addWidget(self.save)
         self.buttons.addWidget(self.cancel)

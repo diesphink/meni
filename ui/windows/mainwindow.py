@@ -26,6 +26,23 @@ class MainWindow(QtWidgets.QMainWindow):
                     selection-background-color: {self.app.theme.selection_background};
                     selection-color: {self.app.theme.selection_foreground};
                 }}
+
+                QMainWindow::separator {{
+                    background-color: rgba(0, 0, 0, 0.15);
+                    width: 4px;
+                    border: none;
+                }}
+
+                QPushButton#save:enabled, QPushButton#Ok:enabled {{
+                    background-color: {self.app.theme.green_btn};
+                    color: #000;
+                }}
+
+                QPushButton#cancel:enabled {{
+                    background-color: {self.app.theme.red_btn};
+                    color: #000;
+                }}
+
             """
         )
 
