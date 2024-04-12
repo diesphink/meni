@@ -3,6 +3,7 @@ from ui.tagrow import TagRow
 from ui.common import DockTitleBar
 from stl.mesh import Mesh
 import vtkplotlib as vpl
+import qtawesome as qta
 
 
 class ViewerDock(QtWidgets.QDockWidget):
@@ -19,7 +20,7 @@ class ViewerDock(QtWidgets.QDockWidget):
 
         self.layout = QtWidgets.QVBoxLayout()
         self.layout.setSpacing(0)
-        self.layout.setContentsMargins(0, 0, 0, 0)
+        self.layout.setContentsMargins(5, 5, 5, 5)
 
         # Title
         self.title = QtWidgets.QLabel()
