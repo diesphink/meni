@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtCore
 from ui.tagrow import TagRow
+from ui.common import DockTitleBar
 from stl.mesh import Mesh
 import vtkplotlib as vpl
 
@@ -10,6 +11,8 @@ class ViewerDock(QtWidgets.QDockWidget):
 
         self.app = QtCore.QCoreApplication.instance()
         self.mesh = None
+
+        self.setTitleBarWidget(DockTitleBar("Viewer", clicked=self.close))
 
         self.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetMovable | QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetClosable)
         self.setAllowedAreas(QtCore.Qt.DockWidgetArea.AllDockWidgetAreas)

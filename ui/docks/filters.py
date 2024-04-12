@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets, QtCore
+from ui.common import DockTitleBar
 import qtawesome as qta
 
 
@@ -8,6 +9,8 @@ class FiltersDock(QtWidgets.QDockWidget):
         self.setStyleSheet("background: transparent;")
 
         self.app = QtCore.QCoreApplication.instance()
+
+        self.setTitleBarWidget(DockTitleBar("Filters", clicked=self.close))
 
         self.setFeatures(QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetMovable | QtWidgets.QDockWidget.DockWidgetFeature.DockWidgetClosable)
         self.setAllowedAreas(QtCore.Qt.DockWidgetArea.AllDockWidgetAreas)
