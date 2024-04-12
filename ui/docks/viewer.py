@@ -28,6 +28,8 @@ class ViewerDock(QtWidgets.QDockWidget):
         self.title.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.layout.addWidget(self.title)
 
+        self.layout.addSpacing(10)
+
         # Path
         self.path = IconLabel(qta_id="fa5s.file", icon_size=12)
         self.path.setStyleSheet("font-size: 10px; opacity: 0.8")
