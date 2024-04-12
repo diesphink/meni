@@ -43,7 +43,7 @@ class MainWindow(QtWidgets.QMainWindow):
                     color: #000;
                 }}
                 
-                QLineEdit, QComboBox {{
+                QLineEdit, QComboBox, QTextEdit {{
                     background-color: rgba(255, 255, 255, 0.05);
                     border: 1px solid rgba(0, 0, 0, 0.3);
                 }}
