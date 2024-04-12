@@ -35,6 +35,7 @@ class MainWindow(QtWidgets.QMainWindow):
         self.move(self.app.settings.value("pos", QtCore.QPoint(50, 50)))
 
         self.toolbar = MainToolbar(self)
+        self.addToolBar(self.toolbar)
 
         self.table = FilesTable()
 
