@@ -36,7 +36,8 @@ Developed in Python using <a href="https://doc.qt.io/qtforpython-6/index.html">Q
 
 ## Screenshots
 
-![image](https://github.com/diesphink/3dlibrary/assets/10153740/be52a74f-7ffa-426b-8c8d-69e92f3029f0)
+![image](https://github.com/diesphink/3dlibrary/assets/10153740/b3a7dd1b-3d0f-43fc-87b5-44e93b533a2f)
+
 
 ## Installation
 
