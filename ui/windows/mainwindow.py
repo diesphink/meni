@@ -5,6 +5,7 @@ from ui.filestable import FilesTable
 from ui.searchinput import SearchInput
 from ui.windows.importdialog import ImportDialog
 from ui.menus.menusettings import MenuSettings
+from ui.docks.properties import PropertiesDock
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
 from ui.docks.collectioninfo import CollectionDock
@@ -72,10 +73,12 @@ class MainWindow(QtWidgets.QMainWindow):
         self.viewer = ViewerDock(self)
         self.filters = FiltersDock(self)
         self.collection_info = CollectionDock(self)
+        self.properties = PropertiesDock(self)
 
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collection_info)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.properties)
 
         self.app.status.connect(self.on_status)
 
