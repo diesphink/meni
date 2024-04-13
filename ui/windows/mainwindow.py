@@ -5,10 +5,10 @@ from ui.filestable import FilesTable
 from ui.searchinput import SearchInput
 from ui.windows.importdialog import ImportDialog
 from ui.menus.menusettings import MenuSettings
-from ui.docks.properties import PropertiesDock
+from ui.docks.collectionproperties import CollectionPropertiesDock
+from ui.docks.fileproperties import FilePropertiesDock
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
-from ui.docks.collectioninfo import CollectionDock
 from ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
 
@@ -72,13 +72,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.setCentralWidget(self.table)
         self.viewer = ViewerDock(self)
         self.filters = FiltersDock(self)
-        self.collection_info = CollectionDock(self)
-        self.properties = PropertiesDock(self)
+        self.fileproperties = FilePropertiesDock(self)
+        self.collectionproperties = CollectionPropertiesDock(self)
 
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
-        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collection_info)
-        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.properties)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.fileproperties)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collectionproperties)
 
         self.app.status.connect(self.on_status)
 
