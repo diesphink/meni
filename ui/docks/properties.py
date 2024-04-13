@@ -11,6 +11,17 @@ class PropertiesDock(QtWidgets.QDockWidget):
 
         self.app = QtCore.QCoreApplication.instance()
 
+        self.setStyleSheet(
+            """
+                QLabel#prop_title {
+                    font-weight: bold;
+                    margin-top: 3px;
+                    padding: 3px 0px;
+                    border-bottom: 1px solid rgba(0, 0, 0, 0.2);
+                }
+            """
+        )
+
         self.setTitleBarWidget(DockTitleBar("Properties", clicked=self.close))
 
         self.layout = QtWidgets.QFormLayout()
@@ -24,6 +35,8 @@ class PropertiesDock(QtWidgets.QDockWidget):
             """
         )
         # self.layout.addRow(self.selected_files)
+
+        self.layout.addRow(QtWidgets.QLabel("File Properties", objectName="prop_title"))
 
         # === Name
         self.name = QtWidgets.QLineEdit()
@@ -67,6 +80,58 @@ class PropertiesDock(QtWidgets.QDockWidget):
             ),
         )
 
+        self.layout.addRow(QtWidgets.QLabel("Collection Properties", objectName="prop_title"))
+
+        # === Name
+        self.col_name = QtWidgets.QLineEdit()
+        self.col_name.returnPressed.connect(lambda: self.apply_collection(name=self.col_name.text()))
+        self.layout.addRow(
+            "Name",
+            WidgetWithApplyButtons(
+                self,
+                self.col_name,
+                lambda: self.apply_collection(name=self.col_name.text()),
+                has_apply_all=False,
+            ),
+        )
+
+        # === Author
+        self.col_author = QtWidgets.QLineEdit()
+        self.col_author.returnPressed.connect(lambda: self.apply_collection(author=self.col_author.text()))
+        self.layout.addRow(
+            "Author",
+            WidgetWithApplyButtons(
+                self,
+                self.col_author,
+                lambda: self.apply_collection(author=self.col_author.text()),
+            ),
+        )
+
+        # === URL
+        self.col_url = QtWidgets.QLineEdit()
+        self.col_url.returnPressed.connect(lambda: self.apply_collection(url=self.col_url.text()))
+        self.layout.addRow(
+            "URL",
+            WidgetWithApplyButtons(
+                self,
+                self.col_url,
+                lambda: self.apply_collection(url=self.col_url.text()),
+            ),
+        )
+
+        # === Notes
+        self.col_notes = QtWidgets.QPlainTextEdit()
+        self.col_notes.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
+        self.col_notes.setFixedHeight(100)
+        self.layout.addRow(
+            "Notes",
+            WidgetWithApplyButtons(
+                self,
+                self.col_notes,
+                lambda: self.apply_collection(notes=self.col_notes.toPlainText()),
+            ),
+        )
+
         # Set layout to widget to dock
         widget = QtWidgets.QWidget()
         widget.setLayout(self.layout)
@@ -88,13 +153,23 @@ class PropertiesDock(QtWidgets.QDockWidget):
         self.collection_edit.setText(file.collection if file else "")
         self.tags.setText(", ".join(file.tags) if file else "")
 
+        collection = file and file.collection_obj
+        if collection is not None:
+            self.col_name.setText(collection.name)
+            self.col_author.setText(collection.author)
+            self.col_url.setText(collection.url)
+            self.col_notes.setPlainText(collection.notes)
+
+        for i in range(4, self.layout.rowCount()):
+            self.layout.setRowVisible(i, collection is not None)
+
     def apply_file(self, **kwargs):
         if self.app.selected_file:
             self.app.metadata.update_file(self.app.selected_file, **kwargs)
 
-    def apply_file_all(self, **kwargs):
-        if self.app.selected_file:
-            self.app.metadata.update_file(self.app.selected_file, **kwargs)
+    def apply_collection(self, **kwargs):
+        if self.app.selected_file and self.app.selected_file.collection_obj:
+            self.app.metadata.update_collection(self.app.selected_file.collection_obj, **kwargs)
 
 
 class WidgetWithApplyButtons(QtWidgets.QWidget):
