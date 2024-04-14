@@ -70,20 +70,20 @@ class FilePropertiesDock(QtWidgets.QDockWidget):
         self.setWidget(widget)
 
         # Connect signals
-        self.app.metadata.changed.connect(lambda: self.refresh(self.app.selected_file))
-        self.app.selected_file_changed.connect(self.refresh)
+        self.app.metadata.changed.connect(lambda: self.refresh([], self.app.last_selected_file))
+        self.app.selected_files_changed.connect(self.refresh)
 
-        self.refresh(None)
+        self.refresh([], None)
 
-    def refresh(self, file):
-        self.layout.setRowVisible(0, file is None)
+    def refresh(self, files, last):
+        self.layout.setRowVisible(0, last is None)
         for i in range(1, self.layout.rowCount()):
-            self.layout.setRowVisible(i, file is not None)
+            self.layout.setRowVisible(i, last is not None)
 
-        self.name.setText(file.name if file else "")
-        self.collection_edit.setText(file.collection if file else "")
-        self.tags.setText(", ".join(file.tags) if file else "")
+        self.name.setText(last.name if last else "")
+        self.collection_edit.setText(last.collection if last else "")
+        self.tags.setText(", ".join(last.tags) if last else "")
 
     def apply_file(self, **kwargs):
-        if self.app.selected_file:
-            self.app.metadata.update_file(self.app.selected_file, **kwargs)
+        if self.app.last_selected_file:
+            self.app.metadata.update_file(self.app.last_selected_file, **kwargs)

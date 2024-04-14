@@ -76,13 +76,13 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
         self.setWidget(widget)
 
         # Connect signals
-        self.app.metadata.changed.connect(lambda: self.refresh(self.app.selected_file))
-        self.app.selected_file_changed.connect(self.refresh)
+        self.app.metadata.changed.connect(lambda: self.refresh([], self.app.last_selected_file))
+        self.app.selected_files_changed.connect(self.refresh)
 
-        self.refresh(None)
+        self.refresh([], None)
 
-    def refresh(self, file):
-        collection = file and file.collection_obj
+    def refresh(self, files, last):
+        collection = last and last.collection_obj
         if collection is not None:
             self.col_name.setText(collection.name)
             self.col_author.setText(collection.author)
@@ -94,5 +94,5 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
             self.layout.setRowVisible(i, collection is not None)
 
     def apply_collection(self, **kwargs):
-        if self.app.selected_file and self.app.selected_file.collection_obj:
-            self.app.metadata.update_collection(self.app.selected_file.collection_obj, **kwargs)
+        if self.app.last_selected_file and self.app.last_selected_file.collection_obj:
+            self.app.metadata.update_collection(self.app.last_selected_file.collection_obj, **kwargs)

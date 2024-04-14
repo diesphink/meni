@@ -9,7 +9,7 @@ class App3dLibrary(QtWidgets.QApplication):
 
     status = QtCore.Signal(str)
     filter_changed = QtCore.Signal()
-    selected_file_changed = QtCore.Signal(object)
+    selected_files_changed = QtCore.Signal(list, object)
 
     def __init__(self, sys_argv, library=None):
         super().__init__(sys_argv)
@@ -27,7 +27,7 @@ class App3dLibrary(QtWidgets.QApplication):
         self.welcome = None
         self.tag_filters = []
         self._search_filter = None
-        self._selected_file = None
+        self._selected_files = []
 
         self.theme = Nord()
         # self.theme = Dracula()
@@ -62,13 +62,19 @@ class App3dLibrary(QtWidgets.QApplication):
         self.metadata.reload()
 
     @property
-    def selected_file(self):
-        return self._selected_file
+    def last_selected_file(self):
+        if len(self._selected_files) > 0:
+            return self._selected_files[-1]
+        return None
 
-    @selected_file.setter
-    def selected_file(self, value):
-        self._selected_file = value
-        self.selected_file_changed.emit(value)
+    @property
+    def selected_files(self):
+        return self._selected_files
+
+    @selected_files.setter
+    def selected_files(self, list):
+        self._selected_files = list
+        self.selected_files_changed.emit(list, list[-1] if len(list) > 0 else None)
 
     @property
     def search_filter(self):

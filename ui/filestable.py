@@ -47,8 +47,9 @@ class FilesTable(QtWidgets.QTableView):
 
     def on_selection_changed(self):
         app = QtCore.QCoreApplication.instance()
+
         if self.selectionModel().hasSelection():
-            app.selected_file = self.model().files[self.selectionModel().currentIndex().row()]
+            app.selected_files = [self.model().files[row.row()] for row in self.selectionModel().selectedRows()]
         else:
             app.selected_file = None
 

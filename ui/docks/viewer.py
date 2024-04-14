@@ -59,22 +59,22 @@ class ViewerDock(QtWidgets.QDockWidget):
         self.setWidget(widget)
 
         # Connect signals
-        self.app.metadata.changed.connect(lambda: self.on_selected_file_changed(self.app.selected_file))
-        self.app.selected_file_changed.connect(self.on_selected_file_changed)
+        self.app.metadata.changed.connect(lambda: self.on_selected_file_changed([], self.app.last_selected_file))
+        self.app.selected_files_changed.connect(self.on_selected_file_changed)
 
         # Starting values
-        self.on_selected_file_changed(None)
+        self.on_selected_file_changed([], None)
 
-    def on_selected_file_changed(self, file):
-        self.path.setVisible(file is not None)
-        self.collection.setVisible(file is not None and file.collection_obj is not None)
+    def on_selected_file_changed(self, files, last):
+        self.path.setVisible(last is not None)
+        self.collection.setVisible(last is not None and last.collection_obj is not None)
 
-        if file:
-            self.title.setText(file.name)
-            self.path.setText(file.path)
-            self.collection.setText(file.collection_obj.name if file.collection_obj else "")
-            self.tagrow.tags = file.tags
-            self.show_stl(file.path)
+        if last:
+            self.title.setText(last.name)
+            self.path.setText(last.path)
+            self.collection.setText(last.collection_obj.name if last.collection_obj else "")
+            self.tagrow.tags = last.tags
+            self.show_stl(last.path)
         else:
             self.title.setText("")
             self.path.setText("")
