@@ -51,7 +51,7 @@ class FilesTable(QtWidgets.QTableView):
         if self.selectionModel().hasSelection():
             app.selected_files = [self.model().files[row.row()] for row in self.selectionModel().selectedRows()]
         else:
-            app.selected_file = None
+            app.selected_files = None
 
     def dragEnterEvent(self, event):
         if event.mimeData().hasUrls():

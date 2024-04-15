@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from ui.common import DockTitleBar, IconLabel
-from ui.propertyrowwithapply import PropertyRowWithApply
+from ui.propertyrowwithapply import FilePropertyRowWithApply
 from utils import tags_from_text
 
 import qtawesome as qta
@@ -27,10 +27,10 @@ class FilePropertiesDock(QtWidgets.QDockWidget):
         self.name.returnPressed.connect(lambda: self.apply_file(name=self.name.text()))
         self.layout.addRow(
             "Name",
-            PropertyRowWithApply(
+            FilePropertyRowWithApply(
                 self,
                 self.name,
-                lambda: self.apply_file(name=self.name.text()),
+                lambda: dict(name=self.name.text()),
                 has_apply_all=False,
             ),
         )
@@ -45,10 +45,10 @@ class FilePropertiesDock(QtWidgets.QDockWidget):
 
         self.layout.addRow(
             "Collection",
-            PropertyRowWithApply(
+            FilePropertyRowWithApply(
                 self,
                 self.collection,
-                lambda: self.apply_file(collection=self.collection_edit.text()),
+                lambda: dict(collection=self.collection_edit.text()),
             ),
         )
 
@@ -57,10 +57,10 @@ class FilePropertiesDock(QtWidgets.QDockWidget):
         self.tags.returnPressed.connect(lambda: self.apply_file(tags=tags_from_text(self.tags.text())))
         self.layout.addRow(
             "Tags",
-            PropertyRowWithApply(
+            FilePropertyRowWithApply(
                 self,
                 self.tags,
-                lambda: self.apply_file(tags=tags_from_text(self.tags.text())),
+                lambda: dict(tags=tags_from_text(self.tags.text())),
             ),
         )
 

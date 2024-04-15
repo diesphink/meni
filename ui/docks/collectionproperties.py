@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
 from ui.common import DockTitleBar, IconLabel
-from ui.propertyrowwithapply import PropertyRowWithApply
+from ui.propertyrowwithapply import CollectionPropertyRowWithApply
 from utils import tags_from_text
 
 import qtawesome as qta
@@ -27,10 +27,10 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
         self.col_name.returnPressed.connect(lambda: self.apply_collection(name=self.col_name.text()))
         row = self.layout.addRow(
             "Name",
-            PropertyRowWithApply(
+            CollectionPropertyRowWithApply(
                 self,
                 self.col_name,
-                lambda: self.apply_collection(name=self.col_name.text()),
+                lambda: dict(name=self.col_name.text()),
                 has_apply_all=False,
             ),
         )
@@ -40,10 +40,10 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
         self.col_author.returnPressed.connect(lambda: self.apply_collection(author=self.col_author.text()))
         self.layout.addRow(
             "Author",
-            PropertyRowWithApply(
+            CollectionPropertyRowWithApply(
                 self,
                 self.col_author,
-                lambda: self.apply_collection(author=self.col_author.text()),
+                lambda: dict(author=self.col_author.text()),
             ),
         )
 
@@ -52,10 +52,10 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
         self.col_url.returnPressed.connect(lambda: self.apply_collection(url=self.col_url.text()))
         self.layout.addRow(
             "URL",
-            PropertyRowWithApply(
+            CollectionPropertyRowWithApply(
                 self,
                 self.col_url,
-                lambda: self.apply_collection(url=self.col_url.text()),
+                lambda: dict(url=self.col_url.text()),
             ),
         )
 
@@ -63,10 +63,10 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
         self.col_notes = QtWidgets.QPlainTextEdit()
         self.layout.addRow(
             "Notes",
-            PropertyRowWithApply(
+            CollectionPropertyRowWithApply(
                 self,
                 self.col_notes,
-                lambda: self.apply_collection(notes=self.col_notes.toPlainText()),
+                lambda: dict(notes=self.col_notes.toPlainText()),
             ),
         )
 

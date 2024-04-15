@@ -74,7 +74,7 @@ class App3dLibrary(QtWidgets.QApplication):
     @selected_files.setter
     def selected_files(self, list):
         self._selected_files = list
-        self.selected_files_changed.emit(list, list[-1] if len(list) > 0 else None)
+        self.selected_files_changed.emit(list, list[-1] if list else None)
 
     @property
     def search_filter(self):
