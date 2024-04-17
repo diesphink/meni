@@ -17,12 +17,14 @@ class Metadata(QtCore.QObject):
         self.collections = []
         self.files = []
         self._tags = None
+        self._authors = None
 
         self.changed.connect(self.clear_caches)
         self.changed.connect(self.validate)
 
     def clear_caches(self):
         self._tags = None
+        self._authors = None
 
     def reload(self):
         self.clear_caches()
@@ -52,6 +54,20 @@ class Metadata(QtCore.QObject):
                         self._tags[tag].quantity += 1
 
         return list(self._tags.values())
+
+    @property
+    def authors(self):
+        if not self._authors:
+            self._authors = {}
+            for collection in self.collections:
+                author = collection.author
+                if author is None:
+                    author = "<No author>"
+                if author not in self._authors:
+                    self._authors[author] = len(collection.files)
+                else:
+                    self._authors[author] += len(collection.files)
+        return list(self._authors.keys())
 
     def add_file(self, path, collection=None, name=None, tags=[]):
         new_path = shutil.copy(path, self.app.current_library)
