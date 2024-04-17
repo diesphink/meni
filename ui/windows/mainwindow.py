@@ -9,6 +9,7 @@ from ui.docks.collectionproperties import CollectionPropertiesDock
 from ui.docks.fileproperties import FilePropertiesDock
 from ui.docks.viewer import ViewerDock
 from ui.docks.filters import FiltersDock
+from ui.docks.browser import BrowserDock
 from ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
 
@@ -74,11 +75,13 @@ class MainWindow(QtWidgets.QMainWindow):
         self.filters = FiltersDock(self)
         self.fileproperties = FilePropertiesDock(self)
         self.collectionproperties = CollectionPropertiesDock(self)
+        self.browser = BrowserDock(self)
 
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.fileproperties)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collectionproperties)
+        self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.browser)
 
         self.app.status.connect(self.on_status)
 
