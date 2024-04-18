@@ -206,13 +206,14 @@ class Metadata(QtCore.QObject):
 class JsonPickledMetadata(Metadata):
     def __init__(self):
         super().__init__()
-        os.makedirs(QtCore.QCoreApplication.instance().current_library, exist_ok=True)
-        os.makedirs(os.path.join(QtCore.QCoreApplication.instance().current_library, "attachments"), exist_ok=True)
-        os.makedirs(os.path.join(QtCore.QCoreApplication.instance().current_library, "thumbnails"), exist_ok=True)
+        if QtCore.QCoreApplication.instance().current_library:
+            os.makedirs(QtCore.QCoreApplication.instance().current_library, exist_ok=True)
+            os.makedirs(os.path.join(QtCore.QCoreApplication.instance().current_library, "attachments"), exist_ok=True)
+            os.makedirs(os.path.join(QtCore.QCoreApplication.instance().current_library, "thumbnails"), exist_ok=True)
 
-        self.json_file = os.path.join(QtCore.QCoreApplication.instance().current_library, "metadata.json")
+            self.json_file = os.path.join(QtCore.QCoreApplication.instance().current_library, "metadata.json")
 
-        self._load()
+            self._load()
         self.changed.connect(self._save)
 
     def reload(self):
