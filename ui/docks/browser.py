@@ -34,46 +34,26 @@ class BrowserDock(QtWidgets.QDockWidget):
         self.tree.setHeaderHidden(True)
         self.model = BrowserModel()
         self.tree.setModel(self.model)
+        self.tree.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
 
-        self.tree.header().setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Stretch)
         self.tree.header().setStretchLastSection(False)
+        self.tree.header().setSectionResizeMode(0, QtWidgets.QHeaderView.ResizeMode.Stretch)
+        self.tree.header().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         self.setWidget(self.tree)
 
         self.tree.setStyleSheet(
             f"""
-                QTreeView {{
-                    border: none;
-                    background: transparent;
-                    show-decoration-selected: 0;
+                QTreeView::item {{
+                    padding: 3px 0px;
                 }}
-                QTreeView::item, QTreeView::item::hover, QTreeView::item::selected, QTreeView::item::!selected::focus, QTreeView::item::selected::active {{
-                    padding: 5px;
-                    margin: 0px;
-                    border: none;
-                    color: {self.app.theme.foreground};
-                }}
-                
-                QTreeView::item:hover {{
-                    background-color: rgba(255, 255, 255, 0.01);
-                }}
-                
-                QTreeView::item:selected {{
-                    background: {self.app.theme.selection_background} !important;
-                    color: {self.app.theme.selection_foreground} !important;
-                }}
-                
-
-                
-                
-                
             """
         )
 
         self.app.metadata.changed.connect(self.model.refresh)
-        self.tree.doubleClicked.connect(self.on_double_click)
+        self.tree.clicked.connect(self.on_click)
 
-    def on_double_click(self, index):
+    def on_click(self, index):
         item = self.model.get_item(index)
         if TreeItemType.ROOT_FOLDER not in item.type:
             if self.model.highlighted == item:
@@ -81,6 +61,11 @@ class BrowserDock(QtWidgets.QDockWidget):
             else:
                 self.model.highlighted = item
             self.app.filter_changed.emit()
+        else:
+            if self.tree.isExpanded(index):
+                self.tree.collapse(index)
+            else:
+                self.tree.expand(index)
 
     def filter(self, file):
         highlighted = self.model.highlighted
@@ -127,12 +112,6 @@ class BrowserModel(QtCore.QAbstractItemModel):
 
         item: BrowserTreeItem = self.get_item(index)
 
-        if TreeItemType.ROOT_FOLDER in item.type:
-            if role == QtCore.Qt.ItemDataRole.BackgroundRole:
-                return QtGui.QBrush(QtGui.QColor(255, 0, 0, 1))
-            if role == QtCore.Qt.ItemDataRole.ForegroundRole:
-                return QtGui.QColor(255, 255, 255)
-
         if role == QtCore.Qt.ItemDataRole.DisplayRole:
             if index.column() == 0:
                 text = item.text
@@ -146,22 +125,30 @@ class BrowserModel(QtCore.QAbstractItemModel):
                     return item.count
 
         elif role == QtCore.Qt.ItemDataRole.DecorationRole and index.column() == 0:
+
             if item == self.highlighted:
-                return qta.icon("fa5s.filter", color=self.app.theme.icon_color)
-            if TreeItemType.ROOT_FOLDER | TreeItemType.TAG in item.type:
-                return qta.icon("fa5s.tags", color=self.app.theme.icon_color)
-            if TreeItemType.ROOT_FOLDER | TreeItemType.COLLECTION in item.type:
-                return qta.icon("fa5s.layer-group", color=self.app.theme.icon_color)
-            if TreeItemType.ROOT_FOLDER | TreeItemType.AUTHOR in item.type:
-                return qta.icon("fa5s.user-friends", color=self.app.theme.icon_color)
+                icon = "fa5s.filter"
+            elif TreeItemType.ROOT_FOLDER | TreeItemType.TAG in item.type:
+                icon = "fa5s.tags"
+            elif TreeItemType.ROOT_FOLDER | TreeItemType.COLLECTION in item.type:
+                icon = "fa5s.layer-group"
+            elif TreeItemType.ROOT_FOLDER | TreeItemType.AUTHOR in item.type:
+                icon = "fa5s.user-friends"
             elif TreeItemType.NO_VALUE in item.type:
-                return qta.icon("fa5s.minus-circle", color=self.app.theme.icon_color)
+                icon = "fa5s.minus-circle"
             elif TreeItemType.TAG in item.type:
-                return qta.icon("fa5s.tag", color=self.app.theme.icon_color)
+                icon = "fa5s.tag"
             elif TreeItemType.COLLECTION in item.type:
-                return qta.icon("fa5s.th-large", color=self.app.theme.icon_color)
+                icon = "fa5s.th-large"
             elif TreeItemType.AUTHOR in item.type:
-                return qta.icon("fa5s.user", color=self.app.theme.icon_color)
+                icon = "fa5s.user"
+
+            color = self.app.theme.icon_color
+            if self.highlighted:
+                if self.highlighted != item and not self.highlighted.path.startswith(item.path):
+                    color = self.app.theme.muted
+
+            return qta.icon(icon, color=color)
 
         elif role == QtCore.Qt.ItemDataRole.TextAlignmentRole and index.column() == 1:
             return QtCore.Qt.AlignmentFlag.AlignRight | QtCore.Qt.AlignmentFlag.AlignVCenter
@@ -172,6 +159,14 @@ class BrowserModel(QtCore.QAbstractItemModel):
             font = self.app.font()
             font.setBold(True)
             return font
+
+        elif role == QtCore.Qt.ItemDataRole.ForegroundRole:
+            if self.highlighted:
+                if self.highlighted != item and not self.highlighted.path.startswith(item.path):
+                    return QtGui.QColor(self.app.theme.muted)
+            if TreeItemType.ROOT_FOLDER in item.type:
+                return QtGui.QColor(self.app.theme.icon_color)
+
         return None
 
     def index(self, row: int, column: int, parent: QtCore.QModelIndex = QtCore.QModelIndex()):
@@ -274,6 +269,9 @@ class BrowserModel(QtCore.QAbstractItemModel):
         self.layoutAboutToBeChanged.emit()
         self._highlighted = item
         self.layoutChanged.emit()
+
+    def flags(self, index: QtCore.QModelIndex | QtCore.QPersistentModelIndex) -> QtCore.Qt.ItemFlag:
+        return QtCore.Qt.ItemFlag.ItemIsEnabled
 
 
 class TreeItemType(IntFlag):

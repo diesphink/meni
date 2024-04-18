@@ -70,6 +70,10 @@ class Gruvbox:
     def red_btn(self):
         return self.red
 
+    @property
+    def muted(self):
+        return "#666666"
+
 
 class Nord:
     def __init__(self):
@@ -144,6 +148,10 @@ class Nord:
     def red_btn(self):
         return self.red
 
+    @property
+    def muted(self):
+        return "#5b6880"
+
 
 class Dracula:
     def __init__(self):
@@ -198,3 +206,7 @@ class Dracula:
     @property
     def red_btn(self):
         return self.red
+
+    @property
+    def muted(self):
+        return "#5f6380"
