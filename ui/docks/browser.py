@@ -86,12 +86,18 @@ class BrowserDock(QtWidgets.QDockWidget):
         highlighted = self.model.highlighted
         if highlighted:
             if TreeItemType.TAG in highlighted.type:
+                if TreeItemType.NO_VALUE in highlighted.type:
+                    return len(file.tags) == 0
                 for tag in file.tags:
                     if tag.startswith(highlighted.data):
                         return True
             if TreeItemType.COLLECTION in highlighted.type:
+                if TreeItemType.NO_VALUE in highlighted.type:
+                    return file.collection is None or file.collection.strip() == ""
                 return file.collection and file.collection.startswith(highlighted.data)
             if TreeItemType.AUTHOR in highlighted.type:
+                if TreeItemType.NO_VALUE in highlighted.type:
+                    return file.collection_obj is None or not file.collection_obj.author
                 return file.collection_obj and file.collection_obj.author == highlighted.data
             return False
 
@@ -108,6 +114,10 @@ class BrowserModel(QtCore.QAbstractItemModel):
         self.tags_item = self.root_item.append_child("Tags", TreeItemType.ROOT_FOLDER | TreeItemType.TAG)
         self.collections_item = self.root_item.append_child("Collections", TreeItemType.ROOT_FOLDER | TreeItemType.COLLECTION)
         self.authors_item = self.root_item.append_child("Authors", TreeItemType.ROOT_FOLDER | TreeItemType.AUTHOR)
+
+        self.notags_item = self.tags_item.append_child("No Tags", TreeItemType.NO_VALUE | TreeItemType.TAG)
+        self.nocollections_item = self.collections_item.append_child("No Collection", TreeItemType.NO_VALUE | TreeItemType.COLLECTION)
+        self.noauthor_item = self.authors_item.append_child("No Author", TreeItemType.NO_VALUE | TreeItemType.AUTHOR)
 
         self.refresh()
 
@@ -144,6 +154,8 @@ class BrowserModel(QtCore.QAbstractItemModel):
                 return qta.icon("fa5s.layer-group", color=self.app.theme.icon_color)
             if TreeItemType.ROOT_FOLDER | TreeItemType.AUTHOR in item.type:
                 return qta.icon("fa5s.user-friends", color=self.app.theme.icon_color)
+            elif TreeItemType.NO_VALUE in item.type:
+                return qta.icon("fa5s.minus-circle", color=self.app.theme.icon_color)
             elif TreeItemType.TAG in item.type:
                 return qta.icon("fa5s.tag", color=self.app.theme.icon_color)
             elif TreeItemType.COLLECTION in item.type:
@@ -210,49 +222,48 @@ class BrowserModel(QtCore.QAbstractItemModel):
         metadata = QtCore.QCoreApplication.instance().metadata
 
         self.layoutAboutToBeChanged.emit()
-        # self.beginResetModel()
-        # for item in self.root_item.children:
-        #     item.children = []
         self.root_item.reset()
 
         for file in metadata.files:
 
             tags = file.tags
             if len(tags) == 0:
-                tags = ["<No Tags>"]
-
-            for tag in tags:
-                tag_path = ["Tags"]
-                for tag_part in tag.split("/"):
-                    tag_path = tag_path + [tag_part]
-                    tag_item = self.get_item_by_path(tag_path)
-                    if tag_item is None:
-                        tag_item = self.get_item_by_path(tag_path[:-1]).append_child("/".join(tag_path[1:]), TreeItemType.TAG)
-                        tag_item.count = 0
-                    tag_item.count += 1
+                self.notags_item.count += 1
+            else:
+                for tag in tags:
+                    tag_path = ["Tags"]
+                    for tag_part in tag.split("/"):
+                        tag_path = tag_path + [tag_part]
+                        tag_item = self.get_item_by_path(tag_path)
+                        if tag_item is None:
+                            tag_item = self.get_item_by_path(tag_path[:-1]).append_child("/".join(tag_path[1:]), TreeItemType.TAG)
+                            tag_item.count = 0
+                        tag_item.count += 1
 
             coll = file.collection
             if coll is None or coll.strip() == "":
-                coll = "<No Collection>"
+                self.nocollections_item.count += 1
+            else:
+                coll_path = ["Collections"]
+                for coll_part in coll.split("/"):
+                    coll_path = coll_path + [coll_part]
+                    coll_item = self.get_item_by_path(coll_path)
+                    if coll_item is None:
+                        coll_item = self.get_item_by_path(coll_path[:-1]).append_child("/".join(coll_path[1:]), TreeItemType.COLLECTION)
+                        coll_item.count = 0
+                    coll_item.count += 1
 
-            coll_path = ["Collections"]
-            for coll_part in coll.split("/"):
-                coll_path = coll_path + [coll_part]
-                coll_item = self.get_item_by_path(coll_path)
-                if coll_item is None:
-                    coll_item = self.get_item_by_path(coll_path[:-1]).append_child("/".join(coll_path[1:]), TreeItemType.COLLECTION)
-                    coll_item.count = 0
-                coll_item.count += 1
+            author = file.collection_obj.author if file.collection_obj and file.collection_obj.author else None
+            if author is None or author.strip() == "":
+                self.noauthor_item.count += 1
+            else:
+                author_item = self.get_item_by_path(["Authors", author])
+                if author_item is None:
+                    author_item = self.get_item_by_path(["Authors"]).append_child(author, TreeItemType.AUTHOR)
+                    author_item.count = 0
+                author_item.count += 1
 
-            author = file.collection_obj.author if file.collection_obj and file.collection_obj.author else "<No Author>"
-            author_item = self.get_item_by_path(["Authors", author])
-            if author_item is None:
-                author_item = self.get_item_by_path(["Authors"]).append_child(author, TreeItemType.AUTHOR)
-                author_item.count = 0
-            author_item.count += 1
-        # self.resetInternalData()
         self.layoutChanged.emit()
-        # self.endResetModel()
 
     @property
     def highlighted(self):

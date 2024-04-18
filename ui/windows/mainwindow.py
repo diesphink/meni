@@ -8,7 +8,6 @@ from ui.menus.menusettings import MenuSettings
 from ui.docks.collectionproperties import CollectionPropertiesDock
 from ui.docks.fileproperties import FilePropertiesDock
 from ui.docks.viewer import ViewerDock
-from ui.docks.filters import FiltersDock
 from ui.docks.browser import BrowserDock
 from ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
