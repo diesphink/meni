@@ -19,15 +19,15 @@ class App3dLibrary(QtWidgets.QApplication):
         self._library_command_line = library
 
         self.settings = QtCore.QSettings("3dlibrary", "3dlibrary")
-        self.threadpool = QtCore.QThreadPool()
-        self.threadpool.setMaxThreadCount(1)
+        # self.threadpool = QtCore.QThreadPool()
+        # self.threadpool.setMaxThreadCount(1)
         self.metadata = JsonPickledMetadata()
 
         self.main = None
         self.welcome = None
-        self.tag_filters = []
         self._search_filter = None
         self._selected_files = []
+        self.filters = []
 
         self.theme = Nord()
         # self.theme = Dracula()
@@ -50,6 +50,9 @@ class App3dLibrary(QtWidgets.QApplication):
         if not self.welcome:
             self.welcome = WelcomeWindow()
         self.welcome.show()
+
+    def add_filter(self, filter):
+        self.filters.append(filter)
 
     @property
     def current_library(self):
@@ -83,15 +86,4 @@ class App3dLibrary(QtWidgets.QApplication):
     @search_filter.setter
     def search_filter(self, value):
         self._search_filter = value
-        self.filter_changed.emit()
-
-    def is_tag_filtered(self, tag):
-        return tag.name in self.tag_filters
-
-    def toggle_tag_filter(self, tag):
-        if tag.name in self.tag_filters:
-            self.tag_filters.remove(tag.name)
-        else:
-            self.tag_filters.append(tag.name)
-
         self.filter_changed.emit()

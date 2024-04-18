@@ -132,8 +132,9 @@ class TableModel(QtCore.QAbstractTableModel):
 
         filtered_files = self._files
 
-        if app.tag_filters:
-            filtered_files = [file for file in filtered_files if any(tag in app.tag_filters for tag in file.tags)]
+        for filter in app.filters:
+            filtered_files = [file for file in filtered_files if filter(file)]
+
         if app._search_filter:
             filtered_files = [file for file in filtered_files if app._search_filter.lower() in file.name.lower()]
 
