@@ -72,13 +72,11 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.setCentralWidget(self.table)
         self.viewer = ViewerDock(self)
-        self.filters = FiltersDock(self)
         self.fileproperties = FilePropertiesDock(self)
         self.collectionproperties = CollectionPropertiesDock(self)
         self.browser = BrowserDock(self)
 
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.viewer)
-        self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.filters)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.fileproperties)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.RightDockWidgetArea, self.collectionproperties)
         self.addDockWidget(QtCore.Qt.DockWidgetArea.LeftDockWidgetArea, self.browser)
