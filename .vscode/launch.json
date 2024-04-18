@@ -8,7 +8,7 @@
             "name": "Python Debugger: Current File",
             "type": "debugpy",
             "request": "launch",
-            "program": "main.py",
+            "module": "meni",
             "args": ["-l", "library"],
             "console": "integratedTerminal",
             "env": {

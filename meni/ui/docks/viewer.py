@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore
-from ui.tagrow import TagRow
-from ui.common import DockTitleBar, IconLabel
+from meni.ui.tagrow import TagRow
+from meni.ui.common import DockTitleBar, IconLabel
 from stl.mesh import Mesh
 import vtkplotlib as vpl
 import qtawesome as qta

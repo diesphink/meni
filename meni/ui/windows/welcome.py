@@ -1,5 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.windows.mainwindow import MainWindow
+from meni.ui.windows.mainwindow import MainWindow
+import meni.rc_assets
 
 
 class WelcomeWindow(QtWidgets.QWidget):
@@ -29,7 +30,7 @@ class WelcomeWindow(QtWidgets.QWidget):
 
         # Logo (logo.svg)
         self.logo = QtWidgets.QLabel()
-        self.logo.setPixmap(QtGui.QPixmap("logo.svg").scaled(120, 120, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
+        self.logo.setPixmap(QtGui.QPixmap(":/assets/logo.svg").scaled(120, 120, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation))
         self.logo.setAlignment(QtCore.Qt.AlignCenter)
         self.layout.addWidget(self.logo, 0)
 

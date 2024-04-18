@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from model.model import Local3DFile, Stage
-from ui.common import QHLine, QVLine
-from utils import tags_from_text
+from meni.model.model import Local3DFile, Stage
+from meni.ui.common import QHLine, QVLine
+from meni.utils import tags_from_text
 import os
 
 

@@ -1,8 +1,8 @@
 from PySide6 import QtWidgets, QtCore
-from ui.windows.mainwindow import MainWindow
-from ui.windows.welcome import WelcomeWindow
-from model.model import JsonPickledMetadata
-from theme import *
+from meni.ui.windows.mainwindow import MainWindow
+from meni.ui.windows.welcome import WelcomeWindow
+from meni.model.model import JsonPickledMetadata
+from meni.theme import *
 
 
 class AppMeni(QtWidgets.QApplication):

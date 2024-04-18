@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.common import DockTitleBar
+from meni.ui.common import DockTitleBar
 from enum import IntFlag, auto
 import qtawesome as qta
 

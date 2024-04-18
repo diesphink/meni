@@ -1,7 +1,7 @@
 import os
 import shutil
 import jsonpickle
-from utils import calculate_sha1
+from meni.utils import calculate_sha1
 from PySide6 import QtCore
 import vtkplotlib as vpl
 from stl.mesh import Mesh

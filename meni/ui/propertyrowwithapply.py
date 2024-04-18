@@ -1,6 +1,6 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.common import DockTitleBar, IconLabel
-from utils import tags_from_text
+from meni.ui.common import DockTitleBar, IconLabel
+from meni.utils import tags_from_text
 
 import qtawesome as qta
 

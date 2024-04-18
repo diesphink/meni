@@ -1,8 +1,8 @@
 from PySide6 import QtWidgets, QtCore
 from qt_material import apply_stylesheet
-from ui.windows.mainwindow import MainWindow
-from ui.windows.welcome import WelcomeWindow
-from app import AppMeni
+from meni.ui.windows.mainwindow import MainWindow
+from meni.ui.windows.welcome import WelcomeWindow
+from meni.app import AppMeni
 import sys
 import argparse
 

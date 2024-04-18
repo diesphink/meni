@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.searchinput import SearchInput
-from ui.windows.importdialog import ImportDialog
-from ui.menus.menusettings import MenuSettings
+from meni.ui.searchinput import SearchInput
+from meni.ui.windows.importdialog import ImportDialog
+from meni.ui.menus.menusettings import MenuSettings
 
 import qtawesome as qta
 

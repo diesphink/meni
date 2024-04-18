@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore
-from ui.flowlayout import FlowLayout
+from meni.ui.flowlayout import FlowLayout
 
 
 class TagRow(QtWidgets.QWidget):

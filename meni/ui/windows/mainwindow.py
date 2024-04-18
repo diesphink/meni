@@ -1,15 +1,15 @@
 import os
 
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.filestable import FilesTable
-from ui.searchinput import SearchInput
-from ui.windows.importdialog import ImportDialog
-from ui.menus.menusettings import MenuSettings
-from ui.docks.collectionproperties import CollectionPropertiesDock
-from ui.docks.fileproperties import FilePropertiesDock
-from ui.docks.viewer import ViewerDock
-from ui.docks.browser import BrowserDock
-from ui.toolbars.maintoolbar import MainToolbar
+from meni.ui.filestable import FilesTable
+from meni.ui.searchinput import SearchInput
+from meni.ui.windows.importdialog import ImportDialog
+from meni.ui.menus.menusettings import MenuSettings
+from meni.ui.docks.collectionproperties import CollectionPropertiesDock
+from meni.ui.docks.fileproperties import FilePropertiesDock
+from meni.ui.docks.viewer import ViewerDock
+from meni.ui.docks.browser import BrowserDock
+from meni.ui.toolbars.maintoolbar import MainToolbar
 import qtawesome as qta
 
 

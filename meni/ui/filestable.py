@@ -1,7 +1,7 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from ui.menus.filecontextmenu import FileContextMenu
-from ui.windows.importdialog import ImportDialog
-from utils import tags_from_text
+from meni.ui.menus.filecontextmenu import FileContextMenu
+from meni.ui.windows.importdialog import ImportDialog
+from meni.utils import tags_from_text
 import qtawesome as qta
 
 
