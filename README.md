@@ -1,5 +1,5 @@
 <h3 align="center">
-	<img src="logo.svg" width="150" alt="Logo"/><br/>
+	<img src="assets/logo.svg" width="150" alt="Logo"/><br/>
 	Meni
 </h3>
 
