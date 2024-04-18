@@ -1,6 +1,6 @@
 <h3 align="center">
 	<img src="logo.svg" width="150" alt="Logo"/><br/>
-	3D Library
+	Meni
 </h3>
 
 <h6 align="center">
@@ -16,12 +16,12 @@
 </h6>
 
 <p align="center">
-  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/version-0.1.0-blue.svg" target="_blank" /></a>
-  <a href="https://github.com/diesphink/3dlibrary/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-BSD-darkcyan.svg" target="_blank" /></a>
+  <a href="https://github.com/diesphink/meni/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/version-0.1.0-blue.svg" target="_blank" /></a>
+  <a href="https://github.com/diesphink/meni/blob/master/LICENSE"><img alt="License: MIT" src="https://img.shields.io/badge/license-BSD-darkcyan.svg" target="_blank" /></a>
 </p>
 
 <p align="center">
-3D Library is a tool designed to streamline the management of your 3D model (STL) library, offering a smoother experience for 3D printer owners.
+Meni 3D Library is a tool designed to streamline the management of your 3D model (STL) library, offering a smoother experience for 3D printer owners.
 <br>
 Developed in Python using <a href="https://doc.qt.io/qtforpython-6/index.html">Qt (PySide6)</a>, with model loading facilitated by <a href="https://github.com/WoLpH/numpy-stl/">numpy-stl</a> and visualization handled by <a href="https://github.com/bwoodsend/vtkplotlib">vtkplotlib</a>.
 </p>
@@ -36,7 +36,7 @@ Developed in Python using <a href="https://doc.qt.io/qtforpython-6/index.html">Q
 
 ## Screenshots
 
-![image](https://github.com/diesphink/3dlibrary/assets/10153740/73e69b09-3379-403d-b712-0054c161161b)
+![image](https://github.com/diesphink/meni/assets/10153740/73e69b09-3379-403d-b712-0054c161161b)
 
 
 
@@ -55,4 +55,4 @@ TODO: Guide on installation
 ## License
 
 Copyright © 2024 [Diego Pereyra](https://github.com/diesphink).<br />
-This project is [BSD](https://github.com/diesphink/3dlibrary/blob/master/LICENSE) licensed.
+This project is [BSD](https://github.com/diesphink/meni/blob/master/LICENSE) licensed.

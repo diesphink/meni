@@ -22,7 +22,7 @@ class WelcomeWindow(QtWidgets.QWidget):
                            """
         )
 
-        self.setWindowTitle("Welcome to 3D Library")
+        self.setWindowTitle("Welcome to Meni 3D Library")
 
         self.layout = QtWidgets.QVBoxLayout(self)
         self.layout.setContentsMargins(30, 15, 30, 15)
@@ -55,9 +55,9 @@ class WelcomeWindow(QtWidgets.QWidget):
 
         # Text description
         self.description = QtWidgets.QLabel(
-            """<strong>Welcome to 3D Library</strong>
+            """<strong>Welcome to Meni 3D Library</strong>
                 <br><br>
-                To get started with 3D Library, you'll need to designate a folder as your library. This folder will house your imported 3D models along with their associated metadata, including tags.
+                To get started with Meni, you'll need to designate a folder as your library. This folder will house your imported 3D models along with their associated metadata, including tags.
                 <br><br>
                 Please avoid selecting a folder that already contains your models; instead, import them into the library directly through the application.
                                     """,

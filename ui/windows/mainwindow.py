@@ -59,7 +59,7 @@ class MainWindow(QtWidgets.QMainWindow):
             """
         )
 
-        self.setWindowTitle("3D Library")
+        self.setWindowTitle("Meni 3D Library")
         self.setWindowFlags(QtCore.Qt.WindowType.Dialog)
         self.resize(self.app.settings.value("size", QtCore.QSize(270, 225)))
         self.move(self.app.settings.value("pos", QtCore.QPoint(50, 50)))

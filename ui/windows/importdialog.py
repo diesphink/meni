@@ -12,7 +12,7 @@ class ImportDialog(QtWidgets.QDialog):
         self.stage = Stage()
         self.app = QtCore.QCoreApplication.instance()
 
-        self.setWindowTitle("3D Library - Import")
+        self.setWindowTitle("Meni 3D Library - Import")
 
         hlayout = QtWidgets.QHBoxLayout()
 
@@ -105,7 +105,7 @@ class ImportDialog(QtWidgets.QDialog):
 
     def browse_files(self):
         file_dialog = QtWidgets.QFileDialog()
-        file_dialog.setWindowTitle("3D Library")
+        file_dialog.setWindowTitle("Meni 3D Library")
         file_dialog.setDirectory(self.app.settings.value("last_path", QtCore.QDir.homePath()))
         file_dialog.setFileMode(QtWidgets.QFileDialog.ExistingFiles)
         file_dialog.setNameFilter("3D Files (*.stl)")

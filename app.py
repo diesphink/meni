@@ -5,7 +5,7 @@ from model.model import JsonPickledMetadata
 from theme import *
 
 
-class App3dLibrary(QtWidgets.QApplication):
+class AppMeni(QtWidgets.QApplication):
 
     status = QtCore.Signal(str)
     filter_changed = QtCore.Signal()
@@ -14,11 +14,11 @@ class App3dLibrary(QtWidgets.QApplication):
     def __init__(self, sys_argv, library=None):
         super().__init__(sys_argv)
 
-        self.setApplicationName("3D Library")
+        self.setApplicationName("Meni 3D Library")
 
         self._library_command_line = library
 
-        self.settings = QtCore.QSettings("3dlibrary", "3dlibrary")
+        self.settings = QtCore.QSettings("meni", "meni")
         # self.threadpool = QtCore.QThreadPool()
         # self.threadpool.setMaxThreadCount(1)
         self.metadata = JsonPickledMetadata()
