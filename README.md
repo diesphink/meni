@@ -1,5 +1,5 @@
 <h3 align="center">
-	<img src="assets/logo.svg" width="150" alt="Logo"/><br/>
+	<img src="https://github.com/diesphink/meni/assets/10153740/de6a22f8-3887-43cc-a98e-797afca7ae84" width="150" alt="Logo"/><br/>
 	Meni
 </h3>
 
