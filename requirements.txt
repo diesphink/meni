@@ -4,3 +4,4 @@ jsonpickle
 numpy-stl
 matplotlib
 qtawesome
+vtkplotlib
