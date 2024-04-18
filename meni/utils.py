@@ -1,5 +1,5 @@
 import hashlib
-from PySide6 import QtWidgets
+from PySide6 import QtWidgets, QtGui
 
 BUF_SIZE = 65536
 
@@ -36,3 +36,12 @@ def horizontal_layout(*widgets, margins=[0, 0, 0, 0]):
 
 def tags_from_text(text):
     return [tag.strip() for tag in text.split(",") if tag.strip()]
+
+
+def pxmap_from_svg(svg_filepath, color="black"):
+    img = QtGui.QPixmap(svg_filepath)
+    qp = QtGui.QPainter(img)
+    qp.setCompositionMode(QtGui.QPainter.CompositionMode_SourceIn)
+    qp.fillRect(img.rect(), QtGui.QColor(color))
+    qp.end()
+    return img
