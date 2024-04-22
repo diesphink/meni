@@ -1,7 +1,0 @@
-pyside6
-qt-material
-jsonpickle
-numpy-stl
-matplotlib
-qtawesome
-vtkplotlib
