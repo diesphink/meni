@@ -11,7 +11,7 @@ class ViewerDock(QtWidgets.QDockWidget):
         super().__init__("Viewer", objectName="viewer", parent=parent)
 
         self.app = QtCore.QCoreApplication.instance()
-        self.mesh = None
+        self.mesh_plot = None
         self.loader = None
         self.threadpool = QtCore.QThreadPool()
 
@@ -85,20 +85,21 @@ class ViewerDock(QtWidgets.QDockWidget):
             self.show_stl(None)
 
     def show_stl(self, stl):
-        if self.mesh:
-            self.fig.remove_plot(self.mesh)
-
         if stl is None:
             self.fig.update()
             return
+
         if self.loader:
             self.loader.cancel()
+
         self.loader = BackgroundLoader(stl)
         self.threadpool.start(self.loader)
         self.loader.signals.loaded.connect(self.on_mesh_loaded)
 
     def on_mesh_loaded(self, mesh):
-        self.mesh = vpl.mesh_plot(mesh, color=self.app.theme.model_color, fig=self.fig)
+        if self.mesh_plot:
+            self.fig.remove_plot(self.mesh_plot)
+        self.mesh_plot = vpl.mesh_plot(mesh, color=self.app.theme.model_color, fig=self.fig)
         vpl.reset_camera(fig=self.fig)
         self.fig.update()
 
