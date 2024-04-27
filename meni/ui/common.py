@@ -17,7 +17,7 @@ class QVLine(QtWidgets.QFrame):
 
 
 class DockTitleBar(QtWidgets.QWidget):
-    def __init__(self, title, clicked=None, parent=None):
+    def __init__(self, title, clicked=None, parent=None, closeable=True, draggable=True):
         super().__init__(parent)
         self.app = QtWidgets.QApplication.instance()
 
@@ -26,18 +26,20 @@ class DockTitleBar(QtWidgets.QWidget):
         self.layout.setContentsMargins(3, 3, 3, 3)
         self.layout.setSpacing(3)
 
-        icon = QtWidgets.QLabel()
-        icon.setPixmap(qta.icon("fa5s.grip-vertical", color=self.app.theme.icon_color).pixmap(15))
-        self.layout.addWidget(icon)
+        if draggable:
+            drag_icon = QtWidgets.QLabel()
+            drag_icon.setPixmap(qta.icon("fa5s.grip-vertical", color=self.app.theme.icon_color).pixmap(15))
+            self.layout.addWidget(drag_icon)
 
         label = QtWidgets.QLabel(title)
         label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.layout.addWidget(label)
 
-        close = QtWidgets.QPushButton("", icon=qta.icon("fa5s.times", color=self.app.theme.icon_color), objectName="close", clicked=clicked)
-        close.setFlat(True)
-        close.setMouseTracking(True)
-        self.layout.addWidget(close)
+        if closeable:
+            close = QtWidgets.QPushButton("", icon=qta.icon("fa5s.times", color=self.app.theme.icon_color), objectName="close", clicked=clicked)
+            close.setFlat(True)
+            close.setMouseTracking(True)
+            self.layout.addWidget(close)
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
 
         self.setStyleSheet(
