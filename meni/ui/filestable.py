@@ -14,7 +14,6 @@ class FilesTable(QtWidgets.QTableView):
         self.setSelectionMode(QtWidgets.QAbstractItemView.SelectionMode.ExtendedSelection)
         self.setSelectionBehavior(QtWidgets.QAbstractItemView.SelectRows)
         self.setModel(TableModel())
-        self.setFocusPolicy(QtCore.Qt.FocusPolicy.NoFocus)
 
         self.setItemDelegateForColumn(0, self.delegate)
         self.verticalHeader().setDefaultSectionSize(self.delegate.size)
