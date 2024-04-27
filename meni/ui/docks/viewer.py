@@ -12,6 +12,8 @@ class ViewerDock(QtWidgets.QDockWidget):
 
         self.app = QtCore.QCoreApplication.instance()
         self.mesh = None
+        self.loader = None
+        self.threadpool = QtCore.QThreadPool()
 
         self.setTitleBarWidget(DockTitleBar("Viewer", clicked=self.close))
 
@@ -89,7 +91,35 @@ class ViewerDock(QtWidgets.QDockWidget):
         if stl is None:
             self.fig.update()
             return
+        if self.loader:
+            self.loader.cancel()
+        self.loader = BackgroundLoader(stl)
+        self.threadpool.start(self.loader)
+        self.loader.signals.loaded.connect(self.on_mesh_loaded)
 
-        self.mesh = vpl.mesh_plot(Mesh.from_file(stl), color=self.app.theme.model_color, fig=self.fig)
+    def on_mesh_loaded(self, mesh):
+        self.mesh = vpl.mesh_plot(mesh, color=self.app.theme.model_color, fig=self.fig)
         vpl.reset_camera(fig=self.fig)
         self.fig.update()
+
+
+class BackgroundLoader(QtCore.QRunnable):
+
+    def __init__(self, path):
+        super(BackgroundLoader, self).__init__()
+        self.path = path
+        self.cancelled = False
+        self.signals = BackgroundLoaderSignals()
+
+    @QtCore.Slot()
+    def run(self):
+        mesh = Mesh.from_file(self.path)
+        if not self.cancelled:
+            self.signals.loaded.emit(mesh)
+
+    def cancel(self):
+        self.cancelled = True
+
+
+class BackgroundLoaderSignals(QtCore.QObject):
+    loaded = QtCore.Signal(Mesh)
