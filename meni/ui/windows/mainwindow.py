@@ -113,7 +113,9 @@ class MainWindow(QtWidgets.QMainWindow):
         dock_browser_action.triggered.connect(lambda: self.browser.setVisible(dock_browser_action.isChecked()))
         view_menu.addAction(dock_browser_action)
         # View -> Show Collection Properties Dock
-        dock_collectionproperties_action = QtGui.QAction("Show Collection Properties Dock", self, checkable=True, checked=not self.collectionproperties.isHidden())
+        dock_collectionproperties_action = QtGui.QAction(
+            "Show Collection Properties Dock", self, checkable=True, checked=not self.collectionproperties.isHidden()
+        )
         dock_collectionproperties_action.triggered.connect(lambda: self.collectionproperties.setVisible(dock_collectionproperties_action.isChecked()))
         view_menu.addAction(dock_collectionproperties_action)
         # View -> Show File Properties Dock
@@ -129,10 +131,11 @@ class MainWindow(QtWidgets.QMainWindow):
         settings_menu = self.menuBar().addMenu("&Settings")
         settings_menu.setShortcutEnabled(True)
         # Settings -> Open Library Folder
-        open_library_folder_action = QtGui.QAction(f"Open Library Folder...", self, icon=qta.icon("fa5s.folder-open", color=self.app.theme.icon_color), text="Open Library Folder...")
+        open_library_folder_action = QtGui.QAction(
+            f"Open Library Folder...", self, icon=qta.icon("fa5s.folder-open", color=self.app.theme.icon_color), text="Open Library Folder..."
+        )
         open_library_folder_action.triggered.connect(self.on_open_library_folder)
         settings_menu.addAction(open_library_folder_action)
-
 
         # Create Help Menu
         help_menu = self.menuBar().addMenu("&Help")
@@ -141,9 +144,6 @@ class MainWindow(QtWidgets.QMainWindow):
         about_action = QtGui.QAction("About", self, icon=qta.icon("fa5s.info-circle", color=self.app.theme.icon_color), text="About")
         about_action.triggered.connect(self.on_about)
         help_menu.addAction(about_action)
-
-
-
 
         self.table = FilesTable()
         main = QtWidgets.QWidget()
@@ -156,9 +156,7 @@ class MainWindow(QtWidgets.QMainWindow):
         main.setLayout(layout)
         self.setCentralWidget(main)
 
-
         self.app.status.connect(self.on_status)
-
 
     def closeEvent(self, event):
         self.app.settings.setValue("size", self.size())
@@ -174,7 +172,6 @@ class MainWindow(QtWidgets.QMainWindow):
         if folder:
             self.app.current_library = folder
             self.app.metadata.changed.emit()
-    
 
     def on_about(self):
         QtWidgets.QMessageBox.about(
@@ -183,4 +180,5 @@ class MainWindow(QtWidgets.QMainWindow):
             f"""
             <h1>Meni</h1>
             <p>Version: 0.1.0</p>
-            """)
+            """,
+        )
