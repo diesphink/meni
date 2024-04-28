@@ -32,6 +32,7 @@ jobs:
           python -m pip install --upgrade pip
           pip install poetry
           poetry install
+          poetry shell
 
       - name: Qt GUI with PySide6
         uses: Nuitka/Nuitka-Action@main
