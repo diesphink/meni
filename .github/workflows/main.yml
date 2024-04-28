@@ -45,4 +45,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: exe
-          path: build/hello_world.exe
+          path: build/__main__.exe
