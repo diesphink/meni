@@ -7,8 +7,7 @@ import sys
 import argparse
 
 
-if __name__ == "__main__":
-
+def main():
     parser = argparse.ArgumentParser(description="Meni: Library manager for 3D models and assets.")
     parser.add_argument("-l", "--library", help="Path to the library directory.")
     args = parser.parse_args()
@@ -25,3 +24,7 @@ if __name__ == "__main__":
     app.startup()
 
     app.exec()
+
+
+if __name__ == "__main__":
+    main()
