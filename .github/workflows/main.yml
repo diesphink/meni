@@ -40,7 +40,7 @@ jobs:
           script-name: meni/__main__.py
           standalone: true
           onefile: true
-          output-file: build/meni.exe
+          output-file: meni.exe
           enable-plugins: pyside6
           disable-console: true
 
