@@ -39,7 +39,10 @@ jobs:
           nuitka-version: main
           script-name: meni/__main__.py
           standalone: true
+          onefile: true
+          output-file: build/meni.exe
           enable-plugins: pyside6
+          disable-console: true
 
       # Uploads artifact
       - name: Upload Artifact
