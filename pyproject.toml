@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "meni"
-version = "0.1.1"
+version = "0.1.2"
 description = "Software to manage a library of 3d files (stl)"
 authors = ["Diego Pereyra <diego@diegopereyra.com>"]
 license = "BSD-3-Clause"
@@ -34,6 +34,10 @@ pyinstaller = "^6.6.0"
 
 [tool.poetry.group.dev.dependencies]
 black = "^21.12b0"
+nuitka = "^2.1.6"
+
+[tool.poetry.scripts]
+meni = "meni.__main__:main"
 
 [build-system]
 requires = ["poetry-core"]
