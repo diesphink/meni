@@ -11,6 +11,7 @@ from meni.ui.docks.viewer import ViewerDock
 from meni.ui.docks.browser import BrowserDock
 from meni.ui.common import DockTitleBar
 import qtawesome as qta
+import importlib
 
 
 class MainWindow(QtWidgets.QMainWindow):
@@ -174,11 +175,12 @@ class MainWindow(QtWidgets.QMainWindow):
             self.app.metadata.changed.emit()
 
     def on_about(self):
+        version = importlib.metadata.version("meni")
         QtWidgets.QMessageBox.about(
             self,
             "About Meni",
             f"""
             <h1>Meni</h1>
-            <p>Version: 0.1.0</p>
+            <p>Version: {version}</p>
             """,
         )

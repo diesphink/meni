@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "meni"
-version = "0.1.2"
+version = "0.1.4"
 description = "Software to manage a library of 3d files (stl)"
 authors = ["Diego Pereyra <diego@diegopereyra.com>"]
 license = "BSD-3-Clause"
