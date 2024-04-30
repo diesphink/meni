@@ -32,9 +32,7 @@ class WelcomeWindow(QtWidgets.QWidget):
         # Logo (logo.svg)
         self.logo = QtWidgets.QLabel()
         self.logo.setPixmap(
-            pxmap_from_svg(":/assets/logo.svg", color=self.app.theme.icon_color).scaled(
-                120, 120, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation
-            )
+            pxmap_from_svg(":logo.svg", color=self.app.theme.icon_color).scaled(120, 120, QtCore.Qt.KeepAspectRatio, QtCore.Qt.SmoothTransformation)
         )
 
         self.logo.setAlignment(QtCore.Qt.AlignCenter)

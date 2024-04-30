@@ -15,6 +15,7 @@ def main():
     parser.add_argument("-l", "--library", help="Path to the library directory.")
     parser.add_argument("-w", "--wayland", help="Support for wayland (set QT_QPA_PLATFORM=xcb)", action="store_true")
     parser.add_argument("-v", "--version", action="version", version=f"meni {importlib.metadata.version('meni')}")
+    parser.add_argument("--welcome", help="Show welcome screen", action="store_true")
     args = parser.parse_args()
 
     if args.wayland:
@@ -29,7 +30,10 @@ def main():
     # extra = {"density_scale": "-3"}
     # apply_stylesheet(app, "dark_teal.xml", invert_secondary=False, extra=extra, save_as="stylesheet.css")
 
-    app.startup()
+    if args.welcome:
+        app.show_welcome()
+    else:
+        app.startup()
 
     app.exec()
 
