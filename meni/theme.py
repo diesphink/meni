@@ -59,15 +59,18 @@ class BaseTheme:
                 }}
 
                 ViewerDock #title {{
-                    font-size: 20px; font-weight: bold;text-decoration: underline;
+                    font-size: 20px;
+                    font-weight: bold;
+                    text-decoration: underline;
                 }}
                 
                 ViewerDock #path QLabel {{
-                    font-size: 10px; opacity: 0.8
+                    font-size: 10px; opacity: 0.8;
                 }}
                 
                 ViewerDock #collection QLabel {{
-                    font-size: 10px; opacity: 0.8
+                    font-size: 10px;
+                    opacity: 0.8;
                 }}
                 
                 ImportDialog TitleLabel {{
@@ -92,9 +95,16 @@ class BaseTheme:
                 MainWindow::separator {{
                     width: 4px;
                     border: none;
-                    background(light);
+                    background:rgba(0,0,0,0.2);
                 }}
 
+                BrowserDock DeselectableTreeView {{
+                    background: palette(window);
+                }}
+
+                QMenuBar {{
+                    border: 1px solid rgba(0, 0, 0, 0.2);
+                }}
                                 
     """
 
@@ -115,7 +125,6 @@ class ColoredTheme(BaseTheme):
                 MainWindow::separator {{
                     background-color: rgba(0, 0, 0, 0.15);
                 }}
-
 
                 QPushButton#save:enabled, QPushButton#Ok:enabled {{
                     background-color: {self.green_btn};
@@ -140,9 +149,6 @@ class ColoredTheme(BaseTheme):
                     gridline-color: rgba(0, 0, 0, 0.2);
                 }}
 
-                QMenuBar {{
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                }}
 
                 QMenu {{
                     border: 1px solid rgba(0, 0, 0, 0.2);
@@ -155,12 +161,13 @@ class ColoredTheme(BaseTheme):
                     color: {self.tag_foreground};
                 }}
 
-                BrowserDock {{
-                    background: transparent;
-                }}
                
                 #empty {{
                     color: rgba(255,255,255,0.2);
+                }}
+
+                BrowserDock DeselectableTreeView {{
+                    background: transparent;
                 }}
                 
                 
@@ -178,6 +185,13 @@ class ColoredTheme(BaseTheme):
                     border: 2px dashed rgba(255, 255, 255, 0.2); 
                 }}
 
+                DockTitleBar {{
+                    background:rgba(0,0,0,0.1);
+                }}
+
+                DockTitleBar QLabel {{
+                    background: transparent;
+                }}
 
             """
 
