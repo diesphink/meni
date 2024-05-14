@@ -5,12 +5,21 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Python Debugger: Current File",
+            "name": "Python Debugger: Default meni",
             "type": "debugpy",
             "request": "launch",
             "module": "meni",
             "args": ["-l", "library", "-w"],
             "console": "integratedTerminal",
+        },
+        {
+            "name": "Python Debugger: Welcome window",
+            "type": "debugpy",
+            "request": "launch",
+            "module": "meni",
+            "args": ["-l", "library", "-w", "--welcome"],
+            "console": "integratedTerminal",
         }
+
     ]
 }
