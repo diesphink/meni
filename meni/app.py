@@ -31,7 +31,7 @@ class AppMeni(QtWidgets.QApplication):
         self.filters = []
         self.themes = {}
 
-        for theme in [Nord(), Dracula(), Gruvbox()]:
+        for theme in [Nord(), Dracula(), Gruvbox(), SystemDefault()]:
             self.themes[theme.name] = theme
 
         theme = self.settings.value("theme", "Nord")
@@ -44,149 +44,8 @@ class AppMeni(QtWidgets.QApplication):
     def set_theme(self, theme):
         self.theme = theme
 
-        self.setStyleSheet(
-            f"""
-                MainWindow, MainWindow * {{
-                    background-color: {self.theme.main_background};
-                    color: {self.theme.main_foreground};
-                    selection-background-color: {self.theme.selection_background};
-                    selection-color: {self.theme.selection_foreground};
-                }}
+        self.setStyleSheet(theme.stylesheet)
 
-                MainWindow::separator {{
-                    background-color: rgba(0, 0, 0, 0.15);
-                    width: 4px;
-                    border: none;
-                }}
-
-                QPushButton#save:enabled, QPushButton#Ok:enabled {{
-                    background-color: {self.theme.green_btn};
-                    color: #000;
-                }}
-
-                QPushButton#cancel:enabled {{
-                    background-color: {self.theme.red_btn};
-                    color: #000;
-                }}
-                
-                QLineEdit, QComboBox, QTextEdit, QPlainTextEdit {{
-                    background-color: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(0, 0, 0, 0.3);
-                }}
-
-                QTableView QLineEdit, QTableView QComboBox {{
-                    background-color: {self.theme.main_background};
-                }}
-
-                QTableView {{
-                    gridline-color: rgba(0, 0, 0, 0.2);
-                }}
-
-                QMenuBar {{
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                }}
-
-                QMenu {{
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                    background-color: {self.theme.main_background};
-                    padding: 2px;
-                }}
-                
-                DockTitleBar {{
-                    background:rgba(0,0,0,0.1);
-                }}
-
-                DockTitleBar QLabel {{
-                    background: transparent;
-                }}
-
-                DockTitleBar QPushButton {{
-                    background: rgba(0, 0, 0, 0.1);
-                    border: 0px solid white;
-                    border-radius: 2px;
-                }}
-
-                DockTitleBar QPushButton::hover {{
-                    background: rgba(0, 0, 0, 0.3);
-                }}
-                
-                TagRow QLabel {{
-                    background-color: {self.theme.tag_background};
-                    color: {self.theme.tag_foreground};
-
-                    opacity: 0.8;
-                    font-size: 10px;
-                    font-weight: bold;   
-
-                    padding: 2px;
-                    margin: 2px;
-                    border-radius: 2px;
-                }}
-
-                BrowserDock {{
-                    background: transparent;
-                }}
-                
-                BrowserDock QTreeView::item {{
-                    padding: 3px 0px;
-                }}
-                
-                #empty {{
-                    color: rgba(255,255,255,0.2);
-                }}
-                
-                ViewerDock #title {{
-                    font-size: 20px; font-weight: bold;text-decoration: underline;
-                }}
-                
-                ViewerDock #path QLabel {{
-                    font-size: 10px; opacity: 0.8
-                }}
-                
-                ViewerDock #collection QLabel {{
-                    font-size: 10px; opacity: 0.8
-                }}
-                
-                ImportDialog TitleLabel {{
-                    font-size: 15px;
-                    font-weight: bold;
-                    text-decoration: underline;
-                }}
-                
-                DragAndDropTarget QLabel {{
-                    background-color: rgba(255, 255, 255, 0.1); 
-                    padding: 30px; 
-                    border: 2px dashed rgba(255, 255, 255, 0.2); 
-                    border-radius: 5px;
-                    font-size: 17px;
-                    text-align: center;
-                }}
-                
-                WelcomeWindow, WelcomeWindow * {{
-                    background-color: {self.theme.main_background}; 
-                    color: {self.theme.main_foreground};
-                    selection-background-color: {self.theme.selection_background};
-                    selection-color: {self.theme.selection_foreground};
-                }}
-                
-                WelcomeWindow QFrame {{
-                    background-color: rgba(255, 255, 255, 0.01);
-                }}    
-                
-                WelcomeWindow QLabel {{
-                    background: transparent;
-                    border: none;
-                }}
-
-                WelcomeWindow #path {{
-                  border: 1px solid rgba(255,255,255, 0.2);
-                  padding: 5px;
-                  border-radius: 5px;
-                  background-color: rgba(255,255,255, 0.1);
-                }}
-
-            """
-        )
         self.theme_changed.emit(self.theme)
         self.settings.setValue("theme", theme.name)
 
