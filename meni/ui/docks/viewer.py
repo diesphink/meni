@@ -94,6 +94,9 @@ class ViewerDock(QtWidgets.QDockWidget):
 
     def show_stl(self, stl):
         if stl is None:
+            if self.mesh_plot:
+                self.fig.remove_plot(self.mesh_plot)
+                self.mesh_plot = None
             self.fig.update()
             return
 
