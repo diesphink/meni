@@ -82,18 +82,6 @@ class MainWindow(QtWidgets.QMainWindow):
         dock_viewer_action = QtGui.QAction("Show Viewer Dock", self, checkable=True, checked=not self.viewer.isHidden())
         dock_viewer_action.triggered.connect(lambda: self.viewer.setVisible(dock_viewer_action.isChecked()))
         view_menu.addAction(dock_viewer_action)
-        # View -- Separator
-        view_menu.addSeparator()
-        # View -> Theme
-        self.theme_menu = view_menu.addMenu("Theme")
-        # View -> Theme -> Themes
-        for theme in sorted(self.app.themes.values(), key=lambda theme: theme.name):
-            theme_action = QtGui.QAction(theme.name, self, text=theme.name, checked=self.app.theme == theme, checkable=True)
-            theme_action.triggered.connect(lambda _, new_theme=theme: self.app.set_theme(new_theme))
-            self.app.theme_changed.connect(
-                lambda theme, action_theme=theme, theme_action=theme_action: theme_action.setChecked(theme == action_theme)
-            )
-            self.theme_menu.addAction(theme_action)
 
         # Create Settings Menu
         settings_menu = self.menuBar().addMenu("&Settings")
@@ -103,6 +91,18 @@ class MainWindow(QtWidgets.QMainWindow):
         open_library_folder_action = ThemedAction(f"Open Library Folder...", self, icon_id="fa5s.folder-open", text="Open Library Folder...")
         open_library_folder_action.triggered.connect(self.on_open_library_folder)
         settings_menu.addAction(open_library_folder_action)
+        # Settings -- Separator
+        settings_menu.addSeparator()
+        # Settings -> Theme
+        self.theme_menu = settings_menu.addMenu("Theme")
+        # Settings -> Theme -> Themes
+        for theme in sorted(self.app.themes.values(), key=lambda theme: theme.name):
+            theme_action = QtGui.QAction(theme.name, self, text=theme.name, checked=self.app.theme == theme, checkable=True)
+            theme_action.triggered.connect(lambda _, new_theme=theme: self.app.set_theme(new_theme))
+            self.app.theme_changed.connect(
+                lambda theme, action_theme=theme, theme_action=theme_action: theme_action.setChecked(theme == action_theme)
+            )
+            self.theme_menu.addAction(theme_action)
 
         # Create Help Menu
         help_menu = self.menuBar().addMenu("&Help")
@@ -113,7 +113,7 @@ class MainWindow(QtWidgets.QMainWindow):
         help_menu.addAction(about_action)
 
         self.table = FilesTable()
-        main = QtWidgets.QWidget()
+        main = QtWidgets.QWidget(objectName="main")
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.setSpacing(0)
