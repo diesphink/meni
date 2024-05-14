@@ -48,7 +48,7 @@ class ViewerDock(QtWidgets.QDockWidget):
         # Mesh viewer
         self.fig = vpl.QtFigure2()
         self.fig.vl.setContentsMargins(0, 0, 0, 0)
-        self.fig.background_color = self.app.theme.main_background
+        self.fig.background_color = self.background_color
         self.show_stl(None)
         self.layout.addWidget(self.fig)
 
@@ -82,8 +82,14 @@ class ViewerDock(QtWidgets.QDockWidget):
             self.tagrow.tags = []
             self.show_stl(None)
 
+    @property
+    def background_color(self):
+        if hasattr(self.app.theme, "main_background"):
+            return self.app.theme.main_background
+        return self.title.palette().window().color().name()
+
     def on_theme_changed(self, theme):
-        self.fig.background_color = theme.main_background
+        self.fig.background_color = self.background_color
         self.show_stl(self.app.last_selected_file.path if self.app.last_selected_file else None)
 
     def show_stl(self, stl):
