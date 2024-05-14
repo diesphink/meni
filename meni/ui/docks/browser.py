@@ -18,7 +18,6 @@ class DeselectableTreeView(QtWidgets.QTreeView):
 class BrowserDock(QtWidgets.QDockWidget):
     def __init__(self, parent):
         super().__init__("Browser", objectName="browser", parent=parent)
-        self.setStyleSheet("background: transparent;")
 
         self.app = QtCore.QCoreApplication.instance()
         self.app.add_filter(self.filter)
@@ -41,14 +40,6 @@ class BrowserDock(QtWidgets.QDockWidget):
         self.tree.header().setSectionResizeMode(1, QtWidgets.QHeaderView.ResizeMode.ResizeToContents)
 
         self.setWidget(self.tree)
-
-        self.tree.setStyleSheet(
-            f"""
-                QTreeView::item {{
-                    padding: 3px 0px;
-                }}
-            """
-        )
 
         self.app.metadata.changed.connect(self.model.refresh)
         self.tree.clicked.connect(self.on_click)

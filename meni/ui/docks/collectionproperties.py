@@ -16,10 +16,9 @@ class CollectionPropertiesDock(QtWidgets.QDockWidget):
 
         self.layout = QtWidgets.QFormLayout()
 
-        self.empty = QtWidgets.QLabel("No collection selected")
+        self.empty = QtWidgets.QLabel("No collection selected", objectName="empty")
         self.empty.setAlignment(QtCore.Qt.AlignCenter)
         self.empty.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding)
-        self.empty.setStyleSheet("color: rgba(255,255,255,0.2);")
         self.layout.addRow(self.empty)
 
         # === Name

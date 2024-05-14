@@ -120,7 +120,6 @@ class ImportDialog(QtWidgets.QDialog):
 class TitleLabel(QtWidgets.QLabel):
     def __init__(self, text):
         super().__init__(text)
-        self.setStyleSheet("font-size: 15px; font-weight: bold; text-decoration: underline;")
 
 
 class Panel(QtWidgets.QWidget):
@@ -176,15 +175,6 @@ class DragAndDropTarget(QtWidgets.QWidget):
 
         self.setAcceptDrops(True)
 
-        self.setStyleSheet(
-            """
-                           background-color: rgba(255, 255, 255, 0.1); 
-                           padding: 30px; 
-                           border: 2px dashed rgba(255, 255, 255, 0.2); 
-                           border-radius: 5px;
-                           font-size: 17px;
-                           text-align: center;"""
-        )
         layout = QtWidgets.QVBoxLayout()
         layout.setContentsMargins(0, 0, 0, 0)
         layout.addWidget(QtWidgets.QLabel("Drag your model files here", alignment=QtCore.Qt.AlignmentFlag.AlignCenter))

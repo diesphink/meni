@@ -23,13 +23,6 @@ def main():
 
     app = AppMeni(sys.argv, library=args.library)
 
-    # app.setStyleSheet(qdarkstyle.load_stylesheet_pyside6())
-
-    # setup stylesheet
-    # apply_stylesheet(app, theme="dark_teal.xml")
-    # extra = {"density_scale": "-3"}
-    # apply_stylesheet(app, "dark_teal.xml", invert_secondary=False, extra=extra, save_as="stylesheet.css")
-
     if args.welcome:
         app.show_welcome()
     else:

@@ -14,16 +14,6 @@ class WelcomeWindow(QtWidgets.QWidget):
 
         self.app = QtCore.QCoreApplication.instance()
 
-        # UI Components
-        self.setStyleSheet(
-            f"""
-                           background-color: {self.app.theme.main_background}; 
-                           color: {self.app.theme.main_foreground};
-                           selection-background-color: {self.app.theme.selection_background};
-                           selection-color: {self.app.theme.selection_foreground};
-                           """
-        )
-
         self.setWindowTitle("Welcome to Meni 3D Library")
 
         self.layout = QtWidgets.QVBoxLayout(self)
@@ -42,17 +32,6 @@ class WelcomeWindow(QtWidgets.QWidget):
         self.panel = QtWidgets.QFrame()
         self.panel.setFrameShape(QtWidgets.QFrame.Box)
         self.panel.setFrameShadow(QtWidgets.QFrame.Raised)
-        self.panel.setStyleSheet(
-            """
-                QFrame {
-                        background-color: rgba(255, 255, 255, 0.01);
-                        }            
-                QLabel {
-                    background: transparent;
-                    border: none;
-                    }
-                                 """
-        )
         self.panel.layout = QtWidgets.QVBoxLayout(self.panel)
         self.panel.layout.setContentsMargins(30, 15, 30, 30)
         self.panel.layout.setSpacing(15)
@@ -71,10 +50,7 @@ class WelcomeWindow(QtWidgets.QWidget):
         self.panel.layout.addWidget(self.description)
 
         # Path selection
-        self.path = QtWidgets.QLabel(QtCore.QCoreApplication.instance().current_library)
-        self.path.setStyleSheet(
-            "border: 1px solid rgba(255,255,255, 0.2); padding: 5px; border-radius: 5px; background-color: rgba(255,255,255, 0.1); "
-        )
+        self.path = QtWidgets.QLabel(QtCore.QCoreApplication.instance().current_library, objectName="path")
         self.btn_browse = QtWidgets.QPushButton("Browse")
         self.btn_browse.clicked.connect(self.select_folder)
 

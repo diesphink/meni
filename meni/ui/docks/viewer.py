@@ -25,21 +25,18 @@ class ViewerDock(QtWidgets.QDockWidget):
         self.layout.setContentsMargins(5, 5, 5, 5)
 
         # Title
-        self.title = QtWidgets.QLabel()
-        self.title.setStyleSheet("font-size: 20px; font-weight: bold;text-decoration: underline;")
+        self.title = QtWidgets.QLabel(objectName="title")
         self.title.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.layout.addWidget(self.title)
 
         self.layout.addSpacing(10)
 
         # Path
-        self.path = IconLabel(qta_id="fa5s.file", icon_size=12)
-        self.path.setStyleSheet("font-size: 10px; opacity: 0.8")
+        self.path = IconLabel(qta_id="fa5s.file", icon_size=12, objectName="path")
         self.layout.addWidget(self.path)
 
         # Collection
-        self.collection = IconLabel(qta_id="fa5s.layer-group", icon_size=12, final_stretch=True)
-        self.collection.setStyleSheet("font-size: 10px; opacity: 0.8")
+        self.collection = IconLabel(qta_id="fa5s.layer-group", icon_size=12, final_stretch=True, objectName="collection")
         self.collection.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.layout.addWidget(self.collection)
 

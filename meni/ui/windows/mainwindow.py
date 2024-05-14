@@ -20,56 +20,6 @@ class MainWindow(QtWidgets.QMainWindow):
 
         self.app = QtCore.QCoreApplication.instance()
 
-        self.setStyleSheet(
-            f"""
-                * {{
-                    background-color: {self.app.theme.main_background};
-                    color: {self.app.theme.main_foreground};
-                    selection-background-color: {self.app.theme.selection_background};
-                    selection-color: {self.app.theme.selection_foreground};
-                }}
-
-                QMainWindow::separator {{
-                    background-color: rgba(0, 0, 0, 0.15);
-                    width: 4px;
-                    border: none;
-                }}
-
-                QPushButton#save:enabled, QPushButton#Ok:enabled {{
-                    background-color: {self.app.theme.green_btn};
-                    color: #000;
-                }}
-
-                QPushButton#cancel:enabled {{
-                    background-color: {self.app.theme.red_btn};
-                    color: #000;
-                }}
-                
-                QLineEdit, QComboBox, QTextEdit, QPlainTextEdit {{
-                    background-color: rgba(255, 255, 255, 0.05);
-                    border: 1px solid rgba(0, 0, 0, 0.3);
-                }}
-
-                QTableView QLineEdit, QTableView QComboBox {{
-                    background-color: {self.app.theme.main_background};
-                }}
-
-                QTableView {{
-                    gridline-color: rgba(0, 0, 0, 0.2);
-                }}
-
-                QMenuBar {{
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                }}
-
-                QMenu {{
-                    border: 1px solid rgba(0, 0, 0, 0.2);
-                    background-color: {self.app.theme.main_background};
-                    padding: 2px;
-                }}
-            """
-        )
-
         self.setWindowTitle("Meni 3D Library")
         self.setWindowFlags(QtCore.Qt.WindowType.Dialog)
         self.resize(self.app.settings.value("size", QtCore.QSize(270, 225)))

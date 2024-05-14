@@ -42,35 +42,13 @@ class DockTitleBar(QtWidgets.QWidget):
             self.layout.addWidget(close)
         self.setAttribute(QtCore.Qt.WidgetAttribute.WA_StyledBackground, True)
 
-        self.setStyleSheet(
-            f"""
-            DockTitleBar {{
-                background:rgba(0,0,0,0.1);
-            }}
-
-            QLabel {{
-                background: transparent;
-            }}
-
-            QPushButton {{
-                background: rgba(0, 0, 0, 0.1);
-                border: 0px solid white;
-                border-radius: 2px;
-            }}
-
-            QPushButton::hover {{
-                background: rgba(0, 0, 0, 0.3);
-            }}
-            """
-        )
-
 
 class IconLabel(QtWidgets.QWidget):
 
     HorizontalSpacing = 2
 
-    def __init__(self, qta_id, text="", final_stretch=True, icon_size=16):
-        super().__init__()
+    def __init__(self, qta_id, text="", final_stretch=True, icon_size=16, objectName=None):
+        super().__init__(objectName=objectName)
 
         self.app = QtWidgets.QApplication.instance()
 
