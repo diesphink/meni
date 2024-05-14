@@ -2,6 +2,7 @@ from PySide6 import QtWidgets, QtCore, QtGui
 from meni.ui.menus.filecontextmenu import FileContextMenu
 from meni.ui.windows.importdialog import ImportDialog
 from meni.utils import tags_from_text
+from meni.ui.common import ThemedIcon
 import qtawesome as qta
 
 
@@ -179,12 +180,12 @@ class TableModel(QtCore.QAbstractTableModel):
         elif role == QtCore.Qt.DecorationRole:
             if index.column() == COLLECTION:
                 if self.files[index.row()].collection_obj is not None:
-                    return qta.icon("fa5s.layer-group", color=self.app.theme.icon_color)
+                    return ThemedIcon("fa5s.layer-group")
             elif index.column() == TAGS:
                 if self.files[index.row()].tags:
-                    return qta.icon("fa5s.tag", color=self.app.theme.icon_color)
+                    return ThemedIcon("fa5s.tag")
             elif index.column() == PATH:
-                return qta.icon("fa5s.file", color=self.app.theme.icon_color)
+                return ThemedIcon("fa5s.file")
 
     def flags(self, index):
         flags = QtCore.Qt.ItemIsSelectable | QtCore.Qt.ItemIsEnabled | QtCore.Qt.ItemIsDragEnabled

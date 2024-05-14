@@ -60,6 +60,7 @@ class ViewerDock(QtWidgets.QDockWidget):
         # Connect signals
         self.app.metadata.changed.connect(lambda: self.on_selected_file_changed([], self.app.last_selected_file))
         self.app.selected_files_changed.connect(self.on_selected_file_changed)
+        self.app.theme_changed.connect(self.on_theme_changed)
 
         # Starting values
         self.on_selected_file_changed([], None)
@@ -80,6 +81,10 @@ class ViewerDock(QtWidgets.QDockWidget):
             self.collection.setText("")
             self.tagrow.tags = []
             self.show_stl(None)
+
+    def on_theme_changed(self, theme):
+        self.fig.background_color = theme.main_background
+        self.show_stl(self.app.last_selected_file.path if self.app.last_selected_file else None)
 
     def show_stl(self, stl):
         if stl is None:

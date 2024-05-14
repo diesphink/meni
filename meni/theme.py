@@ -31,6 +31,10 @@ class Gruvbox:
         self.background4 = "#7c6f64"
 
     @property
+    def name(self):
+        return "Gruvbox"
+
+    @property
     def main_background(self):
         return self.background
 
@@ -109,6 +113,10 @@ class Nord:
         self.background4 = "#5e81ac"
 
     @property
+    def name(self):
+        return "Nord"
+
+    @property
     def main_background(self):
         return self.background
 
@@ -166,6 +174,10 @@ class Dracula:
         self.purple = "#bd93f9"
         self.red = "#ff5555"
         self.yellow = "#f1fa8c"
+
+    @property
+    def name(self):
+        return "Dracula"
 
     @property
     def main_background(self):

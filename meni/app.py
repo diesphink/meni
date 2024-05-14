@@ -10,6 +10,7 @@ class AppMeni(QtWidgets.QApplication):
     status = QtCore.Signal(str)
     filter_changed = QtCore.Signal()
     selected_files_changed = QtCore.Signal(list, object)
+    theme_changed = QtCore.Signal(object)
 
     def __init__(self, sys_argv, library=None):
         super().__init__(sys_argv)
@@ -28,10 +29,20 @@ class AppMeni(QtWidgets.QApplication):
         self._search_filter = None
         self._selected_files = []
         self.filters = []
+        self.themes = {}
 
-        self.theme = Nord()
-        # self.theme = Dracula()
-        # self.theme = Gruvbox()
+        for theme in [Nord(), Dracula(), Gruvbox()]:
+            self.themes[theme.name] = theme
+
+        theme = self.settings.value("theme", "Nord")
+        if theme not in self.themes:
+            theme = "Nord"
+        self.set_theme(self.themes[theme])
+
+        self.status.connect(print)
+
+    def set_theme(self, theme):
+        self.theme = theme
 
         self.setStyleSheet(
             f"""
@@ -176,8 +187,8 @@ class AppMeni(QtWidgets.QApplication):
 
             """
         )
-
-        self.status.connect(print)
+        self.theme_changed.emit(self.theme)
+        self.settings.setValue("theme", theme.name)
 
     def startup(self):
         if self.current_library:

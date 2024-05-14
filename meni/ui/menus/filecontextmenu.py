@@ -1,4 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
+from meni.ui.common import ThemedAction
 import qtawesome as qta
 import subprocess
 import os
@@ -10,16 +11,14 @@ class FileContextMenu(QtWidgets.QMenu):
         self.files = files
         self.app = QtCore.QCoreApplication.instance()
 
-        remove_action = QtGui.QAction(
-            f"Remove from library", self, icon=qta.icon("fa5s.minus-square", color=self.app.theme.icon_color), text="Remove from library"
-        )
+        remove_action = ThemedAction(f"Remove from library", self, icon_id="fa5s.minus-square", text="Remove from library")
         remove_action.triggered.connect(self.remove_file)
         self.addAction(remove_action)
 
-        open_action = QtGui.QAction(
-            f"Open with system default application",
+        open_action = ThemedAction(
+            "Open with system default application",
             self,
-            icon=qta.icon("fa5s.external-link-alt", color=self.app.theme.icon_color),
+            icon_id="fa5s.external-link-alt",
             text="Open with default application",
         )
         open_action.triggered.connect(self.open_with_system)

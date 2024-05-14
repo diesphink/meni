@@ -1,5 +1,5 @@
 from PySide6 import QtWidgets, QtCore, QtGui
-from meni.ui.common import DockTitleBar, IconLabel
+from meni.ui.common import DockTitleBar, IconLabel, ThemedQPushButton
 from meni.utils import tags_from_text
 
 import qtawesome as qta
@@ -20,17 +20,13 @@ class PropertyRowWithApply(QtWidgets.QWidget):
 
         self.layout.addWidget(widget)
 
-        self.btn_apply = QtWidgets.QPushButton("", objectName="apply")
-        self.btn_apply.setIcon(qta.icon("fa5s.check", color=self.app.theme.icon_color))
-        self.btn_apply.clicked.connect(self.apply_last)
+        self.btn_apply = ThemedQPushButton(icon_id="fa5s.check", clicked=self.apply_last, objectName="apply")
         self.btn_apply.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
         self.btn_apply.setToolTip("<html>Apply to <b>last</b> selected file</html>")
         self.layout.addWidget(self.btn_apply)
 
         if self.has_apply_all:
-            self.btn_apply_all = QtWidgets.QPushButton("", objectName="apply_all")
-            self.btn_apply_all.setIcon(qta.icon("fa5s.check-double", color=self.app.theme.icon_color))
-            self.btn_apply_all.clicked.connect(self.apply_all)
+            self.btn_apply_all = ThemedQPushButton(icon_id="fa5s.check-double", clicked=self.apply_all, objectName="apply_all")
             self.btn_apply_all.setSizePolicy(QtWidgets.QSizePolicy.Fixed, QtWidgets.QSizePolicy.Fixed)
             self.btn_apply_all.setToolTip("<html>Apply to <b>all</b> selected files</html>")
             self.layout.addWidget(self.btn_apply_all)

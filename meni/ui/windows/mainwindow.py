@@ -9,7 +9,7 @@ from meni.ui.docks.collectionproperties import CollectionPropertiesDock
 from meni.ui.docks.fileproperties import FilePropertiesDock
 from meni.ui.docks.viewer import ViewerDock
 from meni.ui.docks.browser import BrowserDock
-from meni.ui.common import DockTitleBar
+from meni.ui.common import DockTitleBar, ThemedAction
 import qtawesome as qta
 import importlib
 
@@ -44,14 +44,19 @@ class MainWindow(QtWidgets.QMainWindow):
         file_menu = self.menuBar().addMenu("&File")
         file_menu.setShortcutEnabled(True)
         # File -> Import
-        import_action = QtGui.QAction("Import", self, icon=qta.icon("fa5.plus-square", color=self.app.theme.icon_color), text="Import")
+        import_action = ThemedAction("Import", self, icon_id="fa5.plus-square", text="Import")
         import_action.setShortcut("Ctrl+I")
         import_action.triggered.connect(lambda: ImportDialog(self).exec())
         file_menu.addAction(import_action)
         # File -- Separator
         file_menu.addSeparator()
+        # File -> Debug
+        debug_action = ThemedAction("Debug", self, icon_id="fa5s.times", text="Debug")
+        debug_action.triggered.connect(self.debug_action)
+        file_menu.addAction(debug_action)
+
         # File -> Quit
-        quit_action = QtGui.QAction("Quit", self, icon=qta.icon("fa5s.times", color=self.app.theme.icon_color), text="Quit")
+        quit_action = ThemedAction("Quit", self, icon_id="fa5s.times", text="Quit")
         quit_action.setShortcut("Ctrl+Q")
         quit_action.triggered.connect(self.close)
         file_menu.addAction(quit_action)
@@ -77,14 +82,25 @@ class MainWindow(QtWidgets.QMainWindow):
         dock_viewer_action = QtGui.QAction("Show Viewer Dock", self, checkable=True, checked=not self.viewer.isHidden())
         dock_viewer_action.triggered.connect(lambda: self.viewer.setVisible(dock_viewer_action.isChecked()))
         view_menu.addAction(dock_viewer_action)
+        # View -- Separator
+        view_menu.addSeparator()
+        # View -> Theme
+        self.theme_menu = view_menu.addMenu("Theme")
+        # View -> Theme -> Themes
+        for theme in sorted(self.app.themes.values(), key=lambda theme: theme.name):
+            theme_action = QtGui.QAction(theme.name, self, text=theme.name, checked=self.app.theme == theme, checkable=True)
+            theme_action.triggered.connect(lambda _, new_theme=theme: self.app.set_theme(new_theme))
+            self.app.theme_changed.connect(
+                lambda theme, action_theme=theme, theme_action=theme_action: theme_action.setChecked(theme == action_theme)
+            )
+            self.theme_menu.addAction(theme_action)
 
         # Create Settings Menu
         settings_menu = self.menuBar().addMenu("&Settings")
         settings_menu.setShortcutEnabled(True)
+        # Settings -> Open
         # Settings -> Open Library Folder
-        open_library_folder_action = QtGui.QAction(
-            f"Open Library Folder...", self, icon=qta.icon("fa5s.folder-open", color=self.app.theme.icon_color), text="Open Library Folder..."
-        )
+        open_library_folder_action = ThemedAction(f"Open Library Folder...", self, icon_id="fa5s.folder-open", text="Open Library Folder...")
         open_library_folder_action.triggered.connect(self.on_open_library_folder)
         settings_menu.addAction(open_library_folder_action)
 
@@ -92,7 +108,7 @@ class MainWindow(QtWidgets.QMainWindow):
         help_menu = self.menuBar().addMenu("&Help")
         help_menu.setShortcutEnabled(True)
         # Help -> About
-        about_action = QtGui.QAction("About", self, icon=qta.icon("fa5s.info-circle", color=self.app.theme.icon_color), text="About")
+        about_action = ThemedAction("About", self, icon_id="fa5s.info-circle", text="About")
         about_action.triggered.connect(self.on_about)
         help_menu.addAction(about_action)
 
@@ -134,3 +150,8 @@ class MainWindow(QtWidgets.QMainWindow):
             <p>Version: {version}</p>
             """,
         )
+
+    def debug_action(self):
+        current_theme = list(self.app.themes.keys()).index(self.app.theme.name)
+        new_theme = list(self.app.themes.keys())[(current_theme + 1) % len(self.app.themes)]
+        self.app.set_theme(self.app.themes[new_theme])

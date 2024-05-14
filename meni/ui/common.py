@@ -1,4 +1,4 @@
-from PySide6 import QtWidgets, QtCore
+from PySide6 import QtWidgets, QtCore, QtGui
 import qtawesome as qta
 
 
@@ -27,16 +27,14 @@ class DockTitleBar(QtWidgets.QWidget):
         self.layout.setSpacing(3)
 
         if draggable:
-            drag_icon = QtWidgets.QLabel()
-            drag_icon.setPixmap(qta.icon("fa5s.grip-vertical", color=self.app.theme.icon_color).pixmap(15))
-            self.layout.addWidget(drag_icon)
+            self.layout.addWidget(ThemedIcon("fa5s.grip-vertical", size=15))
 
         label = QtWidgets.QLabel(title)
         label.setSizePolicy(QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Fixed)
         self.layout.addWidget(label)
 
         if closeable:
-            close = QtWidgets.QPushButton("", icon=qta.icon("fa5s.times", color=self.app.theme.icon_color), objectName="close", clicked=clicked)
+            close = ThemedQPushButton(icon_id="fa5s.times", objectName="close", clicked=clicked)
             close.setFlat(True)
             close.setMouseTracking(True)
             self.layout.addWidget(close)
@@ -58,11 +56,8 @@ class IconLabel(QtWidgets.QWidget):
         layout.setContentsMargins(0, 0, 0, 0)
         self.setLayout(layout)
 
-        self.icon = QtWidgets.QLabel()
-        self.text = QtWidgets.QLabel()
-
-        self.setIcon(qta_id)
-        self.setText(text)
+        self.icon = ThemedIcon(qta_id, size=icon_size)
+        self.text = QtWidgets.QLabel(text)
 
         layout.addWidget(self.icon)
         layout.addSpacing(self.HorizontalSpacing)
@@ -74,5 +69,41 @@ class IconLabel(QtWidgets.QWidget):
     def setText(self, text):
         self.text.setText(text)
 
-    def setIcon(self, qta_id):
-        self.icon.setPixmap(qta.icon(qta_id, color=self.app.theme.icon_color).pixmap(self.icon_size))
+
+class ThemedIcon(qta.IconWidget):
+    def __init__(self, icon_id, size=16, color=None):
+        if color is None:
+            color = QtWidgets.QApplication.instance().theme.icon_color
+        super().__init__(icon_id, color=color, size=size)
+        self.icon_id = icon_id
+        self.size = size
+
+        app = QtWidgets.QApplication.instance()
+        app.theme_changed.connect(self.theme_changed)
+
+    def theme_changed(self, theme):
+        self.setIcon(qta.icon(self.icon_id, color=theme.icon_color))
+
+
+class ThemedQPushButton(QtWidgets.QPushButton):
+    def __init__(self, *args, icon_id=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.icon_id = icon_id
+        self.app = QtWidgets.QApplication.instance()
+        self.app.theme_changed.connect(self.theme_changed)
+        self.theme_changed(self.app.theme)
+
+    def theme_changed(self, theme):
+        self.setIcon(qta.icon(self.icon_id, color=theme.icon_color))
+
+
+class ThemedAction(QtGui.QAction):
+    def __init__(self, *args, icon_id=None, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.icon_id = icon_id
+        self.app = QtWidgets.QApplication.instance()
+        self.app.theme_changed.connect(self.theme_changed)
+        self.theme_changed(self.app.theme)
+
+    def theme_changed(self, theme):
+        self.setIcon(qta.icon(self.icon_id, color=theme.icon_color))
