@@ -80,7 +80,7 @@ class AppMeni(QtWidgets.QApplication):
 
     @property
     def last_selected_file(self):
-        if len(self._selected_files) > 0:
+        if self._selected_files and len(self._selected_files) > 0:
             return self._selected_files[-1]
         return None
 
