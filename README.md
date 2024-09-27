@@ -49,7 +49,7 @@ TODO: Guide on installation
 
 👤 **Diego Pereyra**
 
-- Twitter: [@sphink](https://twitter.com/sphink)
+- Bluesky: [@diegopereyra.com](https://bsky.app/profile/diegopereyra.com)
 - Github: [@diesphink](https://github.com/diesphink)
 
 ## License
