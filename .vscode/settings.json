@@ -8,5 +8,9 @@
     ".pytest_cache": true,
     "venv": true
   },
-  "black-formatter.args": ["--line-length", "150"]
+  "black-formatter.args": [
+    "--line-length",
+    "150"
+  ],
+  "nixEnvSelector.nixFile": "${workspaceFolder}/shell.nix"
 }

@@ -9,7 +9,7 @@
             "type": "debugpy",
             "request": "launch",
             "module": "meni",
-            "args": ["-l", "library", "-w"],
+            "args": ["-l", "library"],
             "console": "integratedTerminal",
         },
         {
